@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- User Table -->
+    <changeSet id="20240226-1" author="o0wen0o">
+        <createTable tableName="user">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(20)"/>
+            <column name="is_bookshelf_visible" type="boolean" defaultValueBoolean="true"/>
+            <column name="is_review_visible" type="boolean" defaultValueBoolean="true"/>
+            <column name="is_contribution_visible" type="boolean" defaultValueBoolean="true"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Role Table -->
+    <changeSet id="20240226-2" author="o0wen0o">
+        <createTable tableName="role">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- User Pivot Role Table -->
+    <changeSet id="20240226-3" author="o0wen0o">
+        <createTable tableName="user_pivot_role">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int"/>
+            <column name="role_id" type="int"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_role_user" baseTableName="user_pivot_role"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_role_role" baseTableName="user_pivot_role"
+                                 baseColumnNames="role_id" referencedTableName="role" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Genre Table -->
+    <changeSet id="20240226-4" author="o0wen0o">
+        <createTable tableName="genre">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- User Pivot Genre Table -->
+    <changeSet id="20240226-5" author="o0wen0o">
+        <createTable tableName="user_pivot_genre">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int"/>
+            <column name="genre_id" type="int"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_genre_user" baseTableName="user_pivot_genre"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_genre_genre" baseTableName="user_pivot_genre"
+                                 baseColumnNames="genre_id" referencedTableName="genre" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Book Table -->
+    <changeSet id="20240226-6" author="o0wen0o">
+        <createTable tableName="book">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="publisher" type="varchar(255)"/>
+            <column name="isbn" type="varchar(20)"/>
+            <column name="publication_date" type="date"/>
+            <column name="page" type="int"/>
+            <column name="language" type="varchar(50)"/>
+            <column name="img_url" type="varchar(255)"/>
+            <column name="rating" type="decimal(3,2)"/>
+            <column name="favourite" type="int"/>
+            <column name="review" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Book Pivot Genre Table -->
+    <changeSet id="20240226-7" author="o0wen0o">
+        <createTable tableName="book_pivot_genre">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="book_id" type="int"/>
+            <column name="genre_id" type="int"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_book_pivot_genre_book" baseTableName="book_pivot_genre"
+                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_pivot_genre_genre" baseTableName="book_pivot_genre"
+                                 baseColumnNames="genre_id" referencedTableName="genre" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Bookshelf Table -->
+    <changeSet id="20240226-8" author="o0wen0o">
+        <createTable tableName="bookshelf">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="bookshelf_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_bookshelf_user" baseTableName="bookshelf" baseColumnNames="user_id"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Bookshelf Pivot Book Table -->
+    <changeSet id="20240226-9" author="o0wen0o">
+        <createTable tableName="bookshelf_pivot_book">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="bookshelf_id" type="int"/>
+            <column name="book_id" type="int"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_bookshelf_pivot_book_bookshelf" baseTableName="bookshelf_pivot_book"
+                                 baseColumnNames="bookshelf_id" referencedTableName="bookshelf"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_bookshelf_pivot_book_book" baseTableName="bookshelf_pivot_book"
+                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Book Comment Table -->
+    <changeSet id="20240226-10" author="o0wen0o">
+        <createTable tableName="book_comment">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="parent_id" type="int"/>
+            <column name="text" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="like" type="int" defaultValueNumeric="0"/>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_book_comment_user" baseTableName="book_comment"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_comment_book" baseTableName="book_comment"
+                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Book Comment Like Table -->
+    <changeSet id="20240226-11" author="o0wen0o">
+        <createTable tableName="book_comment_like">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="book_comment_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_book_comment_like_comment" baseTableName="book_comment_like"
+                                 baseColumnNames="book_comment_id" referencedTableName="book_comment"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_comment_like_user" baseTableName="book_comment_like"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Book Review Table -->
+    <changeSet id="20240226-12" author="o0wen0o">
+        <createTable tableName="book_review">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="text" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_book_review_user" baseTableName="book_review"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_review_book" baseTableName="book_review"
+                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Book Rating Table -->
+    <changeSet id="20240226-13" author="o0wen0o">
+        <createTable tableName="book_rating">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="rating" type="decimal(3,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_book_rating_book" baseTableName="book_rating"
+                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_rating_user" baseTableName="book_rating"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Book Submission Table -->
+    <changeSet id="20240226-14" author="o0wen0o">
+        <createTable tableName="book_submission">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="publisher" type="varchar(255)"/>
+            <column name="isbn" type="varchar(20)"/>
+            <column name="publication_date" type="date"/>
+            <column name="page" type="int"/>
+            <column name="language" type="varchar(50)"/>
+            <column name="img_url" type="varchar(255)"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="status" type="varchar(50)"/>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_book_submission_user" baseTableName="book_submission"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Fundraising Organizer Table -->
+    <changeSet id="20240226-15" author="o0wen0o">
+        <createTable tableName="fundraising_organizer">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(20)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Fundraising Project Table -->
+    <changeSet id="20240226-16" author="o0wen0o">
+        <createTable tableName="fundraising_project">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="project_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="goal_amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_amount" type="decimal(10,2)" defaultValueNumeric="0"/>
+            <column name="status" type="varchar(50)"/>
+            <column name="organizer_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_fundraising_project_organizer" baseTableName="fundraising_project"
+                                 baseColumnNames="organizer_id" referencedTableName="fundraising_organizer"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Donation Table -->
+    <changeSet id="20240226-17" author="o0wen0o">
+        <createTable tableName="donation">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="donation_amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contribution_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fundraising_project_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_donation_user" baseTableName="donation" baseColumnNames="user_id"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_donation_fundraising_project" baseTableName="donation"
+                                 baseColumnNames="fundraising_project_id" referencedTableName="fundraising_project"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Post Table -->
+    <changeSet id="20240226-18" author="o0wen0o">
+        <createTable tableName="post">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="content" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="like" type="int" defaultValueNumeric="0"/>
+            <column name="share" type="int" defaultValueNumeric="0"/>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="int"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_post_user" baseTableName="post" baseColumnNames="user_id"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_book" baseTableName="post" baseColumnNames="book_id"
+                                 referencedTableName="book" referencedColumnNames="id" deferrable="false"
+                                 initiallyDeferred="false"/>
+    </changeSet>
+
+    <!-- Post Like Table -->
+    <changeSet id="20240226-19" author="o0wen0o">
+        <createTable tableName="post_like">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="post_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_post_like_post" baseTableName="post_like" baseColumnNames="post_id"
+                                 referencedTableName="post" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_like_user" baseTableName="post_like" baseColumnNames="user_id"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Post Comment Table -->
+    <changeSet id="20240226-20" author="o0wen0o">
+        <createTable tableName="post_comment">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="parent_id" type="int"/>
+            <column name="text" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="like" type="int" defaultValueNumeric="0"/>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="post_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_post_comment_user" baseTableName="post_comment"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_comment_post" baseTableName="post_comment"
+                                 baseColumnNames="post_id" referencedTableName="post" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Post Comment Like Table -->
+    <changeSet id="20240226-21" author="o0wen0o">
+        <createTable tableName="post_comment_like">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="post_comment_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_post_comment_like_comment" baseTableName="post_comment_like"
+                                 baseColumnNames="post_comment_id" referencedTableName="post_comment"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_comment_like_user" baseTableName="post_comment_like"
+                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
