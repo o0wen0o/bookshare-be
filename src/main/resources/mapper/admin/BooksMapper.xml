@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyp.bookshare.mapper.admin.BooksMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fyp.bookshare.pojo.Books">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="description" property="description" />
+        <result column="publisher" property="publisher" />
+        <result column="isbn" property="isbn" />
+        <result column="publication_date" property="publicationDate" />
+        <result column="page" property="page" />
+        <result column="language" property="language" />
+        <result column="img_url" property="imgUrl" />
+        <result column="rating" property="rating" />
+        <result column="favourite" property="favourite" />
+        <result column="review" property="review" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, author, description, publisher, isbn, publication_date, page, language, img_url, rating, favourite, review
+    </sql>
+
+</mapper>

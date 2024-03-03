@@ -7,37 +7,39 @@
 
     <!-- Insert data into `user` table -->
     <changeSet id="seed-20240226-1" author="o0wen0o">
-        <insert tableName="user">
+        <insert tableName="users">
             <column name="username" value="john_doe"/>
             <column name="email" value="john.doe@example.com"/>
             <column name="password" value="hashed_password1"/>
             <column name="phone_number" value="123-456-7890"/>
+            <column name="created_date" valueDate="2022-02-26 00:00:00"/>
         </insert>
-        <insert tableName="user">
+        <insert tableName="users">
             <column name="username" value="jane_doe"/>
             <column name="email" value="jane.doe@example.com"/>
             <column name="password" value="hashed_password2"/>
             <column name="phone_number" value="098-765-4321"/>
+            <column name="created_date" valueDate="2023-02-26 00:00:00"/>
         </insert>
     </changeSet>
 
     <!-- Insert data into `role` table -->
     <changeSet id="seed-20240226-2" author="o0wen0o">
-        <insert tableName="role">
+        <insert tableName="roles">
             <column name="name" value="Admin"/>
         </insert>
-        <insert tableName="role">
+        <insert tableName="roles">
             <column name="name" value="User"/>
         </insert>
     </changeSet>
 
     <!-- Insert data into `user_pivot_role` table -->
     <changeSet id="seed-20240226-3" author="o0wen0o">
-        <insert tableName="user_pivot_role">
+        <insert tableName="user_pivot_roles">
             <column name="user_id" valueNumeric="1"/>
             <column name="role_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="user_pivot_role">
+        <insert tableName="user_pivot_roles">
             <column name="user_id" valueNumeric="2"/>
             <column name="role_id" valueNumeric="2"/>
         </insert>
@@ -45,37 +47,37 @@
 
     <!-- Insert data into `genre` table -->
     <changeSet id="seed-20240226-4" author="o0wen0o">
-        <insert tableName="genre">
+        <insert tableName="genres">
             <column name="name" value="Fiction"/>
         </insert>
-        <insert tableName="genre">
+        <insert tableName="genres">
             <column name="name" value="Non-Fiction"/>
         </insert>
-        <insert tableName="genre">
+        <insert tableName="genres">
             <column name="name" value="Science Fiction"/>
         </insert>
-        <insert tableName="genre">
+        <insert tableName="genres">
             <column name="name" value="Fantasy"/>
         </insert>
-        <insert tableName="genre">
+        <insert tableName="genres">
             <column name="name" value="Mystery"/>
         </insert>
     </changeSet>
 
     <!-- Insert data into `user_pivot_genre` table -->
     <changeSet id="seed-20240226-5" author="o0wen0o">
-        <insert tableName="user_pivot_genre">
+        <insert tableName="user_pivot_genres">
             <column name="user_id" valueNumeric="1"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="user_pivot_genre">
+        <insert tableName="user_pivot_genres">
             <column name="user_id" valueNumeric="2"/>
             <column name="genre_id" valueNumeric="2"/>
         </insert>
     </changeSet>
 
     <changeSet id="seed-20240226-6" author="o0wen0o">
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Great Adventure"/>
             <column name="author" value="John Smith"/>
             <column name="description" value="An epic journey across the world."/>
@@ -87,7 +89,7 @@
             <column name="rating" valueNumeric="4.5"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Mystery of the Ancient Ruins"/>
             <column name="author" value="Sarah Johnson"/>
             <column name="description" value="Solving ancient mysteries."/>
@@ -99,7 +101,7 @@
             <column name="rating" valueNumeric="4.7"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Journey Through the Stars"/>
             <column name="author" value="Alex Reed"/>
             <column name="description" value="Exploration of the universe."/>
@@ -111,7 +113,7 @@
             <column name="rating" valueNumeric="4.8"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Enchanted Forest"/>
             <column name="author" value="Emily White"/>
             <column name="description" value="Adventures in a magical forest."/>
@@ -123,7 +125,7 @@
             <column name="rating" valueNumeric="4.6"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Lost Artifact"/>
             <column name="author" value="Michael Brown"/>
             <column name="description" value="Discovering lost artifacts."/>
@@ -135,7 +137,7 @@
             <column name="rating" valueNumeric="4.9"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Beyond the Horizon"/>
             <column name="author" value="Laura Green"/>
             <column name="description" value="A tale of discovery and adventure."/>
@@ -147,7 +149,7 @@
             <column name="rating" valueNumeric="4.2"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Secrets of the Ocean"/>
             <column name="author" value="Nathan Scott"/>
             <column name="description" value="Exploring the deep sea."/>
@@ -159,7 +161,7 @@
             <column name="rating" valueNumeric="4.3"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Shadow Thief"/>
             <column name="author" value="Olivia King"/>
             <column name="description" value="A mysterious figure stealing shadows."/>
@@ -171,7 +173,7 @@
             <column name="rating" valueNumeric="4.1"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Galactic Wars"/>
             <column name="author" value="Ethan Ward"/>
             <column name="description" value="Interstellar battles and diplomacy."/>
@@ -183,7 +185,7 @@
             <column name="rating" valueNumeric="4.5"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Time Traveler"/>
             <column name="author" value="Sophia Carter"/>
             <column name="description" value="Adventures through time."/>
@@ -195,7 +197,7 @@
             <column name="rating" valueNumeric="4.7"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Silent City"/>
             <column name="author" value="Lucas Graham"/>
             <column name="description" value="Unraveling the secrets of a silent city."/>
@@ -207,7 +209,7 @@
             <column name="rating" valueNumeric="4.6"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Echoes of the Past"/>
             <column name="author" value="Isabella Torres"/>
             <column name="description" value="Historical mysteries coming to life."/>
@@ -219,7 +221,7 @@
             <column name="rating" valueNumeric="4.4"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Dream Weaver"/>
             <column name="author" value="Mason Clark"/>
             <column name="description" value="Manipulating dreams to save reality."/>
@@ -231,7 +233,7 @@
             <column name="rating" valueNumeric="4.8"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Lost in the Jungle"/>
             <column name="author" value="Ava Martinez"/>
             <column name="description" value="Survival in an uncharted jungle."/>
@@ -243,7 +245,7 @@
             <column name="rating" valueNumeric="4.9"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Cryptic Codes"/>
             <column name="author" value="Oliver Hernandez"/>
             <column name="description" value="Deciphering codes to prevent disaster."/>
@@ -255,7 +257,7 @@
             <column name="rating" valueNumeric="4.5"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Arctic Secret"/>
             <column name="author" value="Mia Thompson"/>
             <column name="description" value="A chilling secret buried in ice."/>
@@ -267,7 +269,7 @@
             <column name="rating" valueNumeric="4.3"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Invisible City"/>
             <column name="author" value="Liam Sanchez"/>
             <column name="description" value="Discovering an invisible city."/>
@@ -279,7 +281,7 @@
             <column name="rating" valueNumeric="4.4"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Forbidden Spell"/>
             <column name="author" value="Charlotte Wilson"/>
             <column name="description" value="A spell that could change everything."/>
@@ -291,7 +293,7 @@
             <column name="rating" valueNumeric="4.6"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="The Last Expedition"/>
             <column name="author" value="Elijah Rivera"/>
             <column name="description" value="The final journey to an unknown land."/>
@@ -303,7 +305,7 @@
             <column name="rating" valueNumeric="4.7"/>
         </insert>
 
-        <insert tableName="book">
+        <insert tableName="books">
             <column name="title" value="Whispers in the Dark"/>
             <column name="author" value="Zoe Diaz"/>
             <column name="description" value="Uncovering truths in the shadows."/>
@@ -318,83 +320,83 @@
 
     <!-- Insert data into `book_pivot_genre` table -->
     <changeSet id="seed-20240226-7" author="o0wen0o">
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="1"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="2"/>
             <column name="genre_id" valueNumeric="5"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="3"/>
             <column name="genre_id" valueNumeric="3"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="4"/>
             <column name="genre_id" valueNumeric="4"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="5"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="6"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="7"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="8"/>
             <column name="genre_id" valueNumeric="5"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="9"/>
             <column name="genre_id" valueNumeric="3"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="10"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="11"/>
             <column name="genre_id" valueNumeric="5"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="12"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="13"/>
             <column name="genre_id" valueNumeric="4"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="14"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="15"/>
             <column name="genre_id" valueNumeric="5"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="16"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="17"/>
             <column name="genre_id" valueNumeric="3"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="18"/>
             <column name="genre_id" valueNumeric="4"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="19"/>
             <column name="genre_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_pivot_genre">
+        <insert tableName="book_pivot_genres">
             <column name="book_id" valueNumeric="20"/>
             <column name="genre_id" valueNumeric="5"/>
         </insert>
@@ -402,11 +404,11 @@
 
     <!-- Insert data into `bookshelf` table -->
     <changeSet id="seed-20240226-8" author="o0wen0o">
-        <insert tableName="bookshelf">
+        <insert tableName="bookshelves">
             <column name="bookshelf_name" value="John's Favorites"/>
             <column name="user_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="bookshelf">
+        <insert tableName="bookshelves">
             <column name="bookshelf_name" value="Jane's Mystery Collection"/>
             <column name="user_id" valueNumeric="2"/>
         </insert>
@@ -414,19 +416,19 @@
 
     <!-- Insert data into `bookshelf_pivot_book` table -->
     <changeSet id="seed-20240226-9" author="o0wen0o">
-        <insert tableName="bookshelf_pivot_book">
+        <insert tableName="bookshelf_pivot_books">
             <column name="bookshelf_id" valueNumeric="1"/>
             <column name="book_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="bookshelf_pivot_book">
+        <insert tableName="bookshelf_pivot_books">
             <column name="bookshelf_id" valueNumeric="1"/>
             <column name="book_id" valueNumeric="3"/>
         </insert>
-        <insert tableName="bookshelf_pivot_book">
+        <insert tableName="bookshelf_pivot_books">
             <column name="bookshelf_id" valueNumeric="2"/>
             <column name="book_id" valueNumeric="2"/>
         </insert>
-        <insert tableName="bookshelf_pivot_book">
+        <insert tableName="bookshelf_pivot_books">
             <column name="bookshelf_id" valueNumeric="2"/>
             <column name="book_id" valueNumeric="8"/>
         </insert>
@@ -434,13 +436,13 @@
 
     <!-- Insert data into `book_comment` table -->
     <changeSet id="seed-20240226-10" author="o0wen0o">
-        <insert tableName="book_comment">
+        <insert tableName="book_comments">
             <column name="parent_id" valueNumeric="NULL"/>
             <column name="text" value="Loved this book!"/>
             <column name="user_id" valueNumeric="1"/>
             <column name="book_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_comment">
+        <insert tableName="book_comments">
             <column name="parent_id" valueNumeric="NULL"/>
             <column name="text" value="Quite an intriguing mystery."/>
             <column name="user_id" valueNumeric="2"/>
@@ -450,11 +452,11 @@
 
     <!-- Insert data into `book_comment_like` table -->
     <changeSet id="seed-20240226-11" author="o0wen0o">
-        <insert tableName="book_comment_like">
+        <insert tableName="book_comment_likes">
             <column name="book_comment_id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="2"/>
         </insert>
-        <insert tableName="book_comment_like">
+        <insert tableName="book_comment_likes">
             <column name="book_comment_id" valueNumeric="2"/>
             <column name="user_id" valueNumeric="1"/>
         </insert>
@@ -462,12 +464,12 @@
 
     <!-- Insert data into `book_review` table -->
     <changeSet id="seed-20240226-12" author="o0wen0o">
-        <insert tableName="book_review">
+        <insert tableName="book_reviews">
             <column name="text" value="A must-read for anyone interested in epic adventures."/>
             <column name="user_id" valueNumeric="1"/>
             <column name="book_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_review">
+        <insert tableName="book_reviews">
             <column name="text" value="An excellent addition to the mystery genre."/>
             <column name="user_id" valueNumeric="2"/>
             <column name="book_id" valueNumeric="2"/>
@@ -476,12 +478,12 @@
 
     <!-- Insert data into `book_rating` table -->
     <changeSet id="seed-20240226-13" author="o0wen0o">
-        <insert tableName="book_rating">
+        <insert tableName="book_ratings">
             <column name="rating" valueNumeric="4.5"/>
             <column name="book_id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_rating">
+        <insert tableName="book_ratings">
             <column name="rating" valueNumeric="4.7"/>
             <column name="book_id" valueNumeric="2"/>
             <column name="user_id" valueNumeric="2"/>
@@ -490,7 +492,7 @@
 
     <!-- Insert data into `book_submission` table -->
     <changeSet id="seed-20240226-14" author="o0wen0o">
-        <insert tableName="book_submission">
+        <insert tableName="book_submissions">
             <column name="title" value="Future Worlds"/>
             <column name="author" value="New Author"/>
             <column name="description" value="Exploring futuristic societies."/>
@@ -502,7 +504,7 @@
             <column name="status" value="Pending"/>
             <column name="user_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="book_submission">
+        <insert tableName="book_submissions">
             <column name="title" value="The Hidden Village"/>
             <column name="author" value="Emerging Author"/>
             <column name="description" value="Discovering a hidden village with secrets."/>
@@ -518,12 +520,12 @@
 
     <!-- Insert data into `fundraising_organizer` table -->
     <changeSet id="seed-20240226-15" author="o0wen0o">
-        <insert tableName="fundraising_organizer">
+        <insert tableName="fundraising_organizers">
             <column name="username" value="Fundraiser1"/>
             <column name="email" value="fundraiser1@example.com"/>
             <column name="phone_number" value="555-1234"/>
         </insert>
-        <insert tableName="fundraising_organizer">
+        <insert tableName="fundraising_organizers">
             <column name="username" value="Fundraiser2"/>
             <column name="email" value="fundraiser2@example.com"/>
             <column name="phone_number" value="555-5678"/>
@@ -532,7 +534,7 @@
 
     <!-- Insert data into `fundraising_project` table -->
     <changeSet id="seed-20240226-16" author="o0wen0o">
-        <insert tableName="fundraising_project">
+        <insert tableName="fundraising_projects">
             <column name="project_name" value="Library for All"/>
             <column name="description" value="Building libraries in underprivileged areas."/>
             <column name="start_date" value="2023-01-01"/>
@@ -542,7 +544,7 @@
             <column name="status" value="Active"/>
             <column name="organizer_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="fundraising_project">
+        <insert tableName="fundraising_projects">
             <column name="project_name" value="Books for Schools"/>
             <column name="description" value="Donating books to schools in need."/>
             <column name="start_date" value="2023-02-01"/>
@@ -556,12 +558,12 @@
 
     <!-- Insert data into `donation` table -->
     <changeSet id="seed-20240226-17" author="o0wen0o">
-        <insert tableName="donation">
+        <insert tableName="donations">
             <column name="donation_amount" valueNumeric="100.00"/>
             <column name="user_id" valueNumeric="1"/>
             <column name="fundraising_project_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="donation">
+        <insert tableName="donations">
             <column name="donation_amount" valueNumeric="150.00"/>
             <column name="user_id" valueNumeric="2"/>
             <column name="fundraising_project_id" valueNumeric="2"/>
@@ -570,12 +572,12 @@
 
     <!-- Insert data into `post` table -->
     <changeSet id="seed-20240226-18" author="o0wen0o">
-        <insert tableName="post">
+        <insert tableName="posts">
             <column name="content" value="Just finished reading an incredible book!"/>
             <column name="user_id" valueNumeric="1"/>
             <column name="book_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="post">
+        <insert tableName="posts">
             <column name="content" value="Starting a new book tonight. Excited!"/>
             <column name="user_id" valueNumeric="2"/>
             <column name="book_id" valueNumeric="3"/>
@@ -584,11 +586,11 @@
 
     <!-- Insert data into `post_like` table -->
     <changeSet id="seed-20240226-19" author="o0wen0o">
-        <insert tableName="post_like">
+        <insert tableName="post_likes">
             <column name="post_id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="2"/>
         </insert>
-        <insert tableName="post_like">
+        <insert tableName="post_likes">
             <column name="post_id" valueNumeric="2"/>
             <column name="user_id" valueNumeric="1"/>
         </insert>
@@ -596,13 +598,13 @@
 
     <!-- Insert data into `post_comment` table -->
     <changeSet id="seed-20240226-20" author="o0wen0o">
-        <insert tableName="post_comment">
+        <insert tableName="post_comments">
             <column name="parent_id" valueNumeric="NULL"/>
             <column name="text" value="Which book was it?"/>
             <column name="user_id" valueNumeric="2"/>
             <column name="post_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="post_comment">
+        <insert tableName="post_comments">
             <column name="parent_id" valueNumeric="NULL"/>
             <column name="text" value="Enjoy your reading!"/>
             <column name="user_id" valueNumeric="1"/>
@@ -612,11 +614,11 @@
 
     <!-- Insert data into `post_comment_like` table -->
     <changeSet id="seed-20240226-21" author="o0wen0o">
-        <insert tableName="post_comment_like">
+        <insert tableName="post_comment_likes">
             <column name="post_comment_id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="post_comment_like">
+        <insert tableName="post_comment_likes">
             <column name="post_comment_id" valueNumeric="2"/>
             <column name="user_id" valueNumeric="2"/>
         </insert>

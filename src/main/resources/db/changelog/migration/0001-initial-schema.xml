@@ -7,7 +7,7 @@
 
     <!-- User Table -->
     <changeSet id="20240226-1" author="o0wen0o">
-        <createTable tableName="user">
+        <createTable tableName="users">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -24,12 +24,13 @@
             <column name="is_bookshelf_visible" type="boolean" defaultValueBoolean="true"/>
             <column name="is_review_visible" type="boolean" defaultValueBoolean="true"/>
             <column name="is_contribution_visible" type="boolean" defaultValueBoolean="true"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
     </changeSet>
 
     <!-- Role Table -->
     <changeSet id="20240226-2" author="o0wen0o">
-        <createTable tableName="role">
+        <createTable tableName="roles">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -41,22 +42,22 @@
 
     <!-- User Pivot Role Table -->
     <changeSet id="20240226-3" author="o0wen0o">
-        <createTable tableName="user_pivot_role">
+        <createTable tableName="user_pivot_roles">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="int"/>
             <column name="role_id" type="int"/>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_user_pivot_role_user" baseTableName="user_pivot_role"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_user_pivot_role_role" baseTableName="user_pivot_role"
-                                 baseColumnNames="role_id" referencedTableName="role" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_role_user" baseTableName="user_pivot_roles"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_role_role" baseTableName="user_pivot_roles"
+                                 baseColumnNames="role_id" referencedTableName="roles" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Genre Table -->
     <changeSet id="20240226-4" author="o0wen0o">
-        <createTable tableName="genre">
+        <createTable tableName="genres">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -68,22 +69,22 @@
 
     <!-- User Pivot Genre Table -->
     <changeSet id="20240226-5" author="o0wen0o">
-        <createTable tableName="user_pivot_genre">
+        <createTable tableName="user_pivot_genres">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="int"/>
             <column name="genre_id" type="int"/>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_user_pivot_genre_user" baseTableName="user_pivot_genre"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_user_pivot_genre_genre" baseTableName="user_pivot_genre"
-                                 baseColumnNames="genre_id" referencedTableName="genre" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_genre_user" baseTableName="user_pivot_genres"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_user_pivot_genre_genre" baseTableName="user_pivot_genres"
+                                 baseColumnNames="genre_id" referencedTableName="genres" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Book Table -->
     <changeSet id="20240226-6" author="o0wen0o">
-        <createTable tableName="book">
+        <createTable tableName="books">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -108,22 +109,22 @@
 
     <!-- Book Pivot Genre Table -->
     <changeSet id="20240226-7" author="o0wen0o">
-        <createTable tableName="book_pivot_genre">
+        <createTable tableName="book_pivot_genres">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="book_id" type="int"/>
             <column name="genre_id" type="int"/>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_book_pivot_genre_book" baseTableName="book_pivot_genre"
-                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_book_pivot_genre_genre" baseTableName="book_pivot_genre"
-                                 baseColumnNames="genre_id" referencedTableName="genre" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_pivot_genre_book" baseTableName="book_pivot_genres"
+                                 baseColumnNames="book_id" referencedTableName="books" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_pivot_genre_genre" baseTableName="book_pivot_genres"
+                                 baseColumnNames="genre_id" referencedTableName="genres" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Bookshelf Table -->
     <changeSet id="20240226-8" author="o0wen0o">
-        <createTable tableName="bookshelf">
+        <createTable tableName="bookshelves">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -132,29 +133,29 @@
             </column>
             <column name="user_id" type="int"/>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_bookshelf_user" baseTableName="bookshelf" baseColumnNames="user_id"
-                                 referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_bookshelf_user" baseTableName="bookshelves" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Bookshelf Pivot Book Table -->
     <changeSet id="20240226-9" author="o0wen0o">
-        <createTable tableName="bookshelf_pivot_book">
+        <createTable tableName="bookshelf_pivot_books">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="bookshelf_id" type="int"/>
             <column name="book_id" type="int"/>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_bookshelf_pivot_book_bookshelf" baseTableName="bookshelf_pivot_book"
-                                 baseColumnNames="bookshelf_id" referencedTableName="bookshelf"
+        <addForeignKeyConstraint constraintName="fk_bookshelf_pivot_book_bookshelf" baseTableName="bookshelf_pivot_books"
+                                 baseColumnNames="bookshelf_id" referencedTableName="bookshelves"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_bookshelf_pivot_book_book" baseTableName="bookshelf_pivot_book"
-                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_bookshelf_pivot_book_book" baseTableName="bookshelf_pivot_books"
+                                 baseColumnNames="book_id" referencedTableName="books" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Book Comment Table -->
     <changeSet id="20240226-10" author="o0wen0o">
-        <createTable tableName="book_comment">
+        <createTable tableName="book_comments">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -171,15 +172,15 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_book_comment_user" baseTableName="book_comment"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_book_comment_book" baseTableName="book_comment"
-                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_comment_user" baseTableName="book_comments"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_comment_book" baseTableName="book_comments"
+                                 baseColumnNames="book_id" referencedTableName="books" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Book Comment Like Table -->
     <changeSet id="20240226-11" author="o0wen0o">
-        <createTable tableName="book_comment_like">
+        <createTable tableName="book_comment_likes">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -190,16 +191,16 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_book_comment_like_comment" baseTableName="book_comment_like"
-                                 baseColumnNames="book_comment_id" referencedTableName="book_comment"
+        <addForeignKeyConstraint constraintName="fk_book_comment_like_comment" baseTableName="book_comment_likes"
+                                 baseColumnNames="book_comment_id" referencedTableName="book_comments"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_book_comment_like_user" baseTableName="book_comment_like"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_comment_like_user" baseTableName="book_comment_likes"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Book Review Table -->
     <changeSet id="20240226-12" author="o0wen0o">
-        <createTable tableName="book_review">
+        <createTable tableName="book_reviews">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -214,15 +215,15 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_book_review_user" baseTableName="book_review"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_book_review_book" baseTableName="book_review"
-                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_review_user" baseTableName="book_reviews"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_review_book" baseTableName="book_reviews"
+                                 baseColumnNames="book_id" referencedTableName="books" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Book Rating Table -->
     <changeSet id="20240226-13" author="o0wen0o">
-        <createTable tableName="book_rating">
+        <createTable tableName="book_ratings">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -236,15 +237,15 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_book_rating_book" baseTableName="book_rating"
-                                 baseColumnNames="book_id" referencedTableName="book" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_book_rating_user" baseTableName="book_rating"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_rating_book" baseTableName="book_ratings"
+                                 baseColumnNames="book_id" referencedTableName="books" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_rating_user" baseTableName="book_ratings"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Book Submission Table -->
     <changeSet id="20240226-14" author="o0wen0o">
-        <createTable tableName="book_submission">
+        <createTable tableName="book_submissions">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -267,13 +268,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_book_submission_user" baseTableName="book_submission"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_book_submission_user" baseTableName="book_submissions"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Fundraising Organizer Table -->
     <changeSet id="20240226-15" author="o0wen0o">
-        <createTable tableName="fundraising_organizer">
+        <createTable tableName="fundraising_organizers">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -289,7 +290,7 @@
 
     <!-- Fundraising Project Table -->
     <changeSet id="20240226-16" author="o0wen0o">
-        <createTable tableName="fundraising_project">
+        <createTable tableName="fundraising_projects">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -308,14 +309,14 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_fundraising_project_organizer" baseTableName="fundraising_project"
-                                 baseColumnNames="organizer_id" referencedTableName="fundraising_organizer"
+        <addForeignKeyConstraint constraintName="fk_fundraising_project_organizer" baseTableName="fundraising_projects"
+                                 baseColumnNames="organizer_id" referencedTableName="fundraising_organizers"
                                  referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Donation Table -->
     <changeSet id="20240226-17" author="o0wen0o">
-        <createTable tableName="donation">
+        <createTable tableName="donations">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -330,16 +331,16 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_donation_user" baseTableName="donation" baseColumnNames="user_id"
-                                 referencedTableName="user" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_donation_fundraising_project" baseTableName="donation"
-                                 baseColumnNames="fundraising_project_id" referencedTableName="fundraising_project"
+        <addForeignKeyConstraint constraintName="fk_donation_user" baseTableName="donations" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_donation_fundraising_project" baseTableName="donations"
+                                 baseColumnNames="fundraising_project_id" referencedTableName="fundraising_projects"
                                  referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Post Table -->
     <changeSet id="20240226-18" author="o0wen0o">
-        <createTable tableName="post">
+        <createTable tableName="posts">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -354,16 +355,16 @@
             </column>
             <column name="book_id" type="int"/>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_post_user" baseTableName="post" baseColumnNames="user_id"
-                                 referencedTableName="user" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_post_book" baseTableName="post" baseColumnNames="book_id"
-                                 referencedTableName="book" referencedColumnNames="id" deferrable="false"
+        <addForeignKeyConstraint constraintName="fk_post_user" baseTableName="posts" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_book" baseTableName="posts" baseColumnNames="book_id"
+                                 referencedTableName="books" referencedColumnNames="id" deferrable="false"
                                  initiallyDeferred="false"/>
     </changeSet>
 
     <!-- Post Like Table -->
     <changeSet id="20240226-19" author="o0wen0o">
-        <createTable tableName="post_like">
+        <createTable tableName="post_likes">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -374,15 +375,15 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_post_like_post" baseTableName="post_like" baseColumnNames="post_id"
-                                 referencedTableName="post" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_post_like_user" baseTableName="post_like" baseColumnNames="user_id"
-                                 referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_like_post" baseTableName="post_likes" baseColumnNames="post_id"
+                                 referencedTableName="posts" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_like_user" baseTableName="post_likes" baseColumnNames="user_id"
+                                 referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Post Comment Table -->
     <changeSet id="20240226-20" author="o0wen0o">
-        <createTable tableName="post_comment">
+        <createTable tableName="post_comments">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -399,15 +400,15 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_post_comment_user" baseTableName="post_comment"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_post_comment_post" baseTableName="post_comment"
-                                 baseColumnNames="post_id" referencedTableName="post" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_comment_user" baseTableName="post_comments"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_comment_post" baseTableName="post_comments"
+                                 baseColumnNames="post_id" referencedTableName="posts" referencedColumnNames="id"/>
     </changeSet>
 
     <!-- Post Comment Like Table -->
     <changeSet id="20240226-21" author="o0wen0o">
-        <createTable tableName="post_comment_like">
+        <createTable tableName="post_comment_likes">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -418,11 +419,11 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_post_comment_like_comment" baseTableName="post_comment_like"
-                                 baseColumnNames="post_comment_id" referencedTableName="post_comment"
+        <addForeignKeyConstraint constraintName="fk_post_comment_like_comment" baseTableName="post_comment_likes"
+                                 baseColumnNames="post_comment_id" referencedTableName="post_comments"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint constraintName="fk_post_comment_like_user" baseTableName="post_comment_like"
-                                 baseColumnNames="user_id" referencedTableName="user" referencedColumnNames="id"/>
+        <addForeignKeyConstraint constraintName="fk_post_comment_like_user" baseTableName="post_comment_likes"
+                                 baseColumnNames="user_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
 </databaseChangeLog>
