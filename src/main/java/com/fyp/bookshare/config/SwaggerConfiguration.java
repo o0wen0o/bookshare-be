@@ -32,7 +32,7 @@ import java.util.Map;
 @Configuration
 @SecurityScheme(type = SecuritySchemeType.HTTP, scheme = "Bearer",
         name = "Authorization", in = SecuritySchemeIn.HEADER)
-@OpenAPIDefinition(security = { @SecurityRequirement(name = "Authorization") })
+// @OpenAPIDefinition(security = { @SecurityRequirement(name = "Authorization") })
 public class SwaggerConfiguration {
 
     /**

@@ -3,7 +3,7 @@ package com.fyp.bookshare.utils;
 import org.springframework.stereotype.Component;
 
 /**
- * 雪花算法ID生成器
+ * 雪花算法ID生成器, for RequestLogFilter
  */
 @Component
 public class SnowflakeIdGenerator {

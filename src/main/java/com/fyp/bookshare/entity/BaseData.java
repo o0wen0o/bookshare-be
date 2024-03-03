@@ -37,9 +37,11 @@ public interface BaseData {
         try {
             Field[] fields = clazz.getDeclaredFields();
             Constructor<V> constructor = clazz.getConstructor();
+
             V v = constructor.newInstance();
             Arrays.asList(fields).forEach(field -> convert(field, v));
             return v;
+
         } catch (ReflectiveOperationException exception) {
             Logger logger = LoggerFactory.getLogger(BaseData.class);
             logger.error("在VO与DTO转换时出现了一些错误", exception);
@@ -55,7 +57,7 @@ public interface BaseData {
      */
     private void convert(Field field, Object target) {
         try {
-            Field source = this.getClass().getDeclaredField(field.getName());
+            Field source = this.getClass().getDeclaredField(field.getName()); // get the DTO
             field.setAccessible(true);
             source.setAccessible(true);
             field.set(target, source.get(this));

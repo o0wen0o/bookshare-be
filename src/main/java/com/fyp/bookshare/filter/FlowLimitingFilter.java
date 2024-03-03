@@ -29,12 +29,15 @@ public class FlowLimitingFilter extends HttpFilter {
 
     @Resource
     StringRedisTemplate template;
+
     //指定时间内最大请求次数限制
     @Value("${spring.web.flow.limit}")
     int limit;
+
     //计数时间周期
     @Value("${spring.web.flow.period}")
     int period;
+
     //超出请求限制封禁时间
     @Value("${spring.web.flow.block}")
     int block;
@@ -53,8 +56,9 @@ public class FlowLimitingFilter extends HttpFilter {
 
     /**
      * 尝试对指定IP地址请求计数，如果被限制则无法继续访问
+     *
      * @param address 请求IP地址
-     * @return 是否操作成功
+     * @return true表示redis中已存在该IP地址，则不允许访问
      */
     private boolean tryCount(String address) {
         synchronized (address.intern()) {

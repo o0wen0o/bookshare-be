@@ -1,7 +1,7 @@
 package com.fyp.bookshare.config;
 
 import com.fyp.bookshare.entity.RestBean;
-import com.fyp.bookshare.entity.dto.Account;
+import com.fyp.bookshare.entity.dto.UserDTO;
 import com.fyp.bookshare.entity.vo.response.AuthorizeVO;
 import com.fyp.bookshare.filter.JwtAuthenticationFilter;
 import com.fyp.bookshare.filter.RequestLogFilter;
@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 /**
  * SpringSecurity相关配置
@@ -104,19 +105,21 @@ public class SecurityConfiguration {
 
         } else if (exceptionOrAuthentication instanceof Exception exception) {
             writer.write(RestBean
-                    .unauthorized(exception.getMessage()).asJsonString());
+                    .unauthorized("用户名或密码错误").asJsonString());
 
         } else if (exceptionOrAuthentication instanceof Authentication authentication) {
             User user = (User) authentication.getPrincipal();
-            Account account = service.findAccountByNameOrEmail(user.getUsername());
-            String jwt = utils.createJwt(user, account.getUsername(), account.getId());
+
+            UserDTO userDTO = service.getUserByEmail(user.getUsername()); // getUsername is get an email
+            Date expire = utils.expireTime();
+            String jwt = utils.createJwt(user, userDTO.getEmail(), userDTO.getId(), expire);
 
             if (jwt == null) {
                 writer.write(RestBean.forbidden("登录验证频繁，请稍后再试").asJsonString());
 
             } else {
-                AuthorizeVO vo = account.asViewObject(AuthorizeVO.class, v -> {
-                    v.setExpire(utils.expireTime());
+                AuthorizeVO vo = userDTO.asViewObject(AuthorizeVO.class, v -> {
+                    v.setExpire(expire);
                     v.setToken(jwt);
                 });
                 writer.write(RestBean.success(vo).asJsonString());

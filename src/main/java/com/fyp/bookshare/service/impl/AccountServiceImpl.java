@@ -2,7 +2,7 @@ package com.fyp.bookshare.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fyp.bookshare.entity.dto.Account;
+import com.fyp.bookshare.entity.dto.UserDTO;
 import com.fyp.bookshare.entity.vo.request.ConfirmResetVO;
 import com.fyp.bookshare.entity.vo.request.EmailRegisterVO;
 import com.fyp.bookshare.entity.vo.request.EmailResetVO;
@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * 账户信息处理相关服务
  */
 @Service
-public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> implements AccountService {
+public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> implements AccountService {
 
     //验证邮件发送冷却时间限制，秒为单位
     @Value("${spring.web.verify.mail-limit}")
@@ -50,19 +51,19 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     /**
      * 从数据库中通过用户名或邮箱查找用户详细信息
      *
-     * @param username 用户名
+     * @param username 用户名，实际上是email
      * @return 用户详细信息
      * @throws UsernameNotFoundException 如果用户未找到则抛出此异常
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = this.findAccountByNameOrEmail(username);
-        if (account == null)
+        UserDTO userDTO = this.getUserByEmail(username);
+        if (userDTO == null)
             throw new UsernameNotFoundException("用户名或密码错误");
         return User
                 .withUsername(username)
-                .password(account.getPassword())
-                .roles(account.getRole())
+                .password(userDTO.getPassword())
+                .roles(String.valueOf(userDTO.getRoles()))
                 .build();
     }
 
@@ -98,16 +99,27 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     public String registerEmailAccount(EmailRegisterVO info) {
         String email = info.getEmail();
         String code = this.getEmailVerifyCode(email);
-        if (code == null) return "请先获取验证码";
-        if (!code.equals(info.getCode())) return "验证码错误，请重新输入";
-        if (this.existsAccountByEmail(email)) return "该邮件地址已被注册";
+
+        if (code == null)
+            return "请先获取验证码";
+
+        if (!code.equals(info.getCode()))
+            return "验证码错误，请重新输入";
+
+        if (this.existsAccountByEmail(email))
+            return "该邮件地址已被注册";
+
         String username = info.getUsername();
-        if (this.existsAccountByUsername(username)) return "该用户名已被他人使用，请重新更换";
+
+        if (this.existsAccountByUsername(username))
+            return "该用户名已被他人使用，请重新更换";
+
         String password = passwordEncoder.encode(info.getPassword());
-        Account account = new Account(null, info.getUsername(),
-                password, email, Const.ROLE_DEFAULT, new Date());
-        if (!this.save(account)) {
+        UserDTO userDTO = new UserDTO(null, username, password, email, new Date(), Collections.singletonList(Const.ROLE_DEFAULT)); // temporary write as'Collections.singletonList(Const.ROLE_DEFAULT)'
+
+        if (!this.save(userDTO)) {
             return "内部错误，注册失败";
+
         } else {
             this.deleteEmailVerifyCode(email);
             return null;
@@ -123,13 +135,19 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Override
     public String resetEmailAccountPassword(EmailResetVO info) {
         String verify = resetConfirm(new ConfirmResetVO(info.getEmail(), info.getCode()));
-        if (verify != null) return verify;
+
+        if (verify != null)
+            return verify;
+
         String email = info.getEmail();
         String password = passwordEncoder.encode(info.getPassword());
+
         boolean update = this.update().eq("email", email).set("password", password).update();
+
         if (update) {
             this.deleteEmailVerifyCode(email);
         }
+
         return update ? null : "更新失败，请联系管理员";
     }
 
@@ -181,16 +199,17 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     /**
-     * 通过用户名或邮件地址查找用户
+     * 通过邮件地址查找用户
      *
-     * @param text 用户名或邮件
+     * @param email 邮件
      * @return 账户实体
      */
-    public Account findAccountByNameOrEmail(String text) {
-        return this.query()
-                .eq("username", text).or()
-                .eq("email", text)
-                .one();
+    public UserDTO getUserByEmail(String email) {
+        return baseMapper.getUserByEmail(email);
+        // return this.query()
+        //         // .eq("username", text).or()
+        //         .eq("email", email)
+        //         .one();
     }
 
     /**
@@ -200,7 +219,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
      * @return 是否存在
      */
     private boolean existsAccountByEmail(String email) {
-        return this.baseMapper.exists(Wrappers.<Account>query().eq("email", email));
+        return this.baseMapper.exists(Wrappers.<UserDTO>query().eq("email", email));
     }
 
     /**
@@ -210,6 +229,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
      * @return 是否存在
      */
     private boolean existsAccountByUsername(String username) {
-        return this.baseMapper.exists(Wrappers.<Account>query().eq("username", username));
+        return this.baseMapper.exists(Wrappers.<UserDTO>query().eq("username", username));
     }
 }
