@@ -8,18 +8,18 @@
     <!-- Insert data into `user` table -->
     <changeSet id="seed-20240226-1" author="o0wen0o">
         <insert tableName="users">
-            <column name="username" value="john_doe"/>
-            <column name="email" value="john.doe@example.com"/>
-            <column name="password" value="hashed_password1"/>
-            <column name="phone_number" value="123-456-7890"/>
-            <column name="created_date" valueDate="2022-02-26 00:00:00"/>
+            <column name="username" value="wen"/>
+            <column name="email" value="wen200202@hotmail.com"/>
+            <column name="password" value="$2a$10$rtG9JcoHpbxTXsFHjXssNuXF/7vsQgCwUyvio3pEd9rdrnNKIx9oy"/>
+            <column name="phone_number" value="011-7654321"/>
+            <column name="created_date" valueDate="2023-02-26"/>
         </insert>
         <insert tableName="users">
-            <column name="username" value="jane_doe"/>
-            <column name="email" value="jane.doe@example.com"/>
-            <column name="password" value="hashed_password2"/>
-            <column name="phone_number" value="098-765-4321"/>
-            <column name="created_date" valueDate="2023-02-26 00:00:00"/>
+            <column name="username" value="kang"/>
+            <column name="email" value="kang@qq.com"/>
+            <column name="password" value="$2a$10$rtG9JcoHpbxTXsFHjXssNuXF/7vsQgCwUyvio3pEd9rdrnNKIx9oy"/>
+            <column name="phone_number" value="012-4567890"/>
+            <column name="created_date" valueDate="2022-02-26"/>
         </insert>
     </changeSet>
 
@@ -38,6 +38,10 @@
         <insert tableName="user_pivot_roles">
             <column name="user_id" valueNumeric="1"/>
             <column name="role_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="user_pivot_roles">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="role_id" valueNumeric="2"/>
         </insert>
         <insert tableName="user_pivot_roles">
             <column name="user_id" valueNumeric="2"/>

@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -105,7 +106,7 @@ public class SecurityConfiguration {
 
         } else if (exceptionOrAuthentication instanceof Exception exception) {
             writer.write(RestBean
-                    .unauthorized("用户名或密码错误").asJsonString());
+                    .unauthorized("Incorrect email or password!").asJsonString());
 
         } else if (exceptionOrAuthentication instanceof Authentication authentication) {
             User user = (User) authentication.getPrincipal();
@@ -115,7 +116,7 @@ public class SecurityConfiguration {
             String jwt = utils.createJwt(user, userDTO.getEmail(), userDTO.getId(), expire);
 
             if (jwt == null) {
-                writer.write(RestBean.forbidden("登录验证频繁，请稍后再试").asJsonString());
+                writer.write(RestBean.forbidden("Frequent requests, please try again later").asJsonString());
 
             } else {
                 AuthorizeVO vo = userDTO.asViewObject(AuthorizeVO.class, v -> {
@@ -144,10 +145,10 @@ public class SecurityConfiguration {
         String authorization = request.getHeader("Authorization");
 
         if (utils.invalidateJwt(authorization)) {
-            writer.write(RestBean.success("退出登录成功").asJsonString());
+            writer.write(RestBean.success("Logout successfully").asJsonString());
             return;
         }
 
-        writer.write(RestBean.failure(400, "退出登录失败").asJsonString());
+        writer.write(RestBean.failure(400, "Logout failed").asJsonString());
     }
 }

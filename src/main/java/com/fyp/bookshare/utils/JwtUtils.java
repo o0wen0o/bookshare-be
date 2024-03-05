@@ -114,7 +114,7 @@ public class JwtUtils {
      * @param headerToken 请求头中携带的令牌
      * @return DecodedJWT
      */
-    public DecodedJWT resolveJwt(String headerToken) {
+    public DecodedJWT validateJwt(String headerToken) {
         String token = this.convertToken(headerToken);
 
         if (token == null)
@@ -126,6 +126,7 @@ public class JwtUtils {
         try {
             DecodedJWT verify = jwtVerifier.verify(token);
 
+            // 校验Jwt令牌是否被列入黑名单
             if (this.isInvalidToken(verify.getId()))
                 return null;
 

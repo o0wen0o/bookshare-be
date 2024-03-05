@@ -3,6 +3,7 @@ package com.fyp.bookshare.entity.vo.response;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 登录验证成功的用户信息响应
@@ -10,11 +11,11 @@ import java.util.Date;
 @Data
 public class AuthorizeVO {
 
-    String username;
+    private String username;
 
-    String role;
+    private List<String> roles;
 
-    String token;
+    private String token;
 
-    Date expire;
+    private Date expire;
 }

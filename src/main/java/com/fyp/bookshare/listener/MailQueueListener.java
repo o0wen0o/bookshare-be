@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * 用于处理邮件发送的消息队列监听器
+ * 用于处理邮件发送的消息队列监听器，监听RabbitMQ是否接收信息
  */
 @Component
 @RabbitListener(queues = "mail")

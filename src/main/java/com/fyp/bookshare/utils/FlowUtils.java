@@ -24,7 +24,7 @@ public class FlowUtils {
      *
      * @param key       键
      * @param blockTime 限制时间
-     * @return 是否通过限流检查
+     * @return true: 通过限流检查 false: 未通过限流检查
      */
     public boolean limitOnceCheck(String key, int blockTime) {
         return this.internalCheck(key, 1, blockTime, (overclock) -> false);
@@ -38,7 +38,7 @@ public class FlowUtils {
      * @param frequency   请求频率
      * @param baseTime    基础限制时间
      * @param upgradeTime 升级限制时间
-     * @return 是否通过限流检查
+     * @return true: 通过限流检查 false: 未通过限流检查
      */
     public boolean limitOnceUpgradeCheck(String key, int frequency, int baseTime, int upgradeTime) {
         return this.internalCheck(key, frequency, baseTime, (overclock) -> {
@@ -56,7 +56,7 @@ public class FlowUtils {
      * @param blockTime  封禁时间
      * @param frequency  请求频率
      * @param period     计数周期
-     * @return 是否通过限流检查
+     * @return true: 通过限流检查 false: 未通过限流检查
      */
     public boolean limitPeriodCheck(String counterKey, String blockKey, int blockTime, int frequency, int period) {
         return this.internalCheck(counterKey, frequency, period, (overclock) -> {
@@ -74,7 +74,7 @@ public class FlowUtils {
      * @param frequency 请求频率
      * @param period    计数周期
      * @param action    限制行为与策略
-     * @return 是否通过限流检查
+     * @return true: 通过限流检查 false: 未通过限流检查
      */
     private boolean internalCheck(String key, int frequency, int period, LimitAction action) {
         if (Boolean.TRUE.equals(template.hasKey(key))) {

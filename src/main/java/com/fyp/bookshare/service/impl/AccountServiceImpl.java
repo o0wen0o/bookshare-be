@@ -7,11 +7,14 @@ import com.fyp.bookshare.entity.vo.request.ConfirmResetVO;
 import com.fyp.bookshare.entity.vo.request.EmailRegisterVO;
 import com.fyp.bookshare.entity.vo.request.EmailResetVO;
 import com.fyp.bookshare.mapper.AccountMapper;
+import com.fyp.bookshare.mapper.admin.UsersMapper;
+import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.AccountService;
 import com.fyp.bookshare.utils.Const;
 import com.fyp.bookshare.utils.FlowUtils;
 import jakarta.annotation.Resource;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.User;
@@ -20,7 +23,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
@@ -30,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * 账户信息处理相关服务
  */
 @Service
-public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> implements AccountService {
+public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implements AccountService {
 
     //验证邮件发送冷却时间限制，秒为单位
     @Value("${spring.web.verify.mail-limit}")
@@ -48,6 +50,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
     @Resource
     FlowUtils flow;
 
+    @Autowired
+    UsersMapper usersMapper;
+
     /**
      * 从数据库中通过用户名或邮箱查找用户详细信息
      *
@@ -58,8 +63,10 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDTO userDTO = this.getUserByEmail(username);
+
         if (userDTO == null)
-            throw new UsernameNotFoundException("用户名或密码错误");
+            throw new UsernameNotFoundException("Incorrect email!");
+
         return User
                 .withUsername(username)
                 .password(userDTO.getPassword())
@@ -78,14 +85,18 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
     public String registerEmailVerifyCode(String type, String email, String address) {
         synchronized (address.intern()) {
             if (!this.verifyLimit(address))
-                return "请求频繁，请稍后再试";
+                return "Frequent requests, please try again later";
+
             Random random = new Random();
             int code = random.nextInt(899999) + 100000;
             Map<String, Object> data = Map.of("type", type, "email", email, "code", code);
 
             rabbitTemplate.convertAndSend(Const.MQ_MAIL, data);
-            stringRedisTemplate.opsForValue()
+
+            stringRedisTemplate
+                    .opsForValue()
                     .set(Const.VERIFY_EMAIL_DATA + email, String.valueOf(code), 3, TimeUnit.MINUTES);
+
             return null;
         }
     }
@@ -101,24 +112,24 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
         String code = this.getEmailVerifyCode(email);
 
         if (code == null)
-            return "请先获取验证码";
+            return "Please get the verification code first";
 
         if (!code.equals(info.getCode()))
-            return "验证码错误，请重新输入";
+            return "Incorrect verification code, please enter again";
 
         if (this.existsAccountByEmail(email))
-            return "该邮件地址已被注册";
+            return "This email address has been registered";
 
         String username = info.getUsername();
 
         if (this.existsAccountByUsername(username))
-            return "该用户名已被他人使用，请重新更换";
+            return "This username has been used by someone else";
 
         String password = passwordEncoder.encode(info.getPassword());
-        UserDTO userDTO = new UserDTO(null, username, password, email, new Date(), Collections.singletonList(Const.ROLE_DEFAULT)); // temporary write as'Collections.singletonList(Const.ROLE_DEFAULT)'
+        Users user = new Users(null, username, email, password, null, null, null, null, new Date());
 
-        if (!this.save(userDTO)) {
-            return "内部错误，注册失败";
+        if (!this.save(user)) {
+            return "Registration failed, please contact administrator";
 
         } else {
             this.deleteEmailVerifyCode(email);
@@ -134,13 +145,14 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
      */
     @Override
     public String resetEmailAccountPassword(EmailResetVO info) {
-        String verify = resetConfirm(new ConfirmResetVO(info.getEmail(), info.getCode()));
+        String email = info.getEmail();
+        String code = info.getCode();
+        String password = passwordEncoder.encode(info.getPassword());
+
+        String verify = resetConfirm(new ConfirmResetVO(email, code));
 
         if (verify != null)
             return verify;
-
-        String email = info.getEmail();
-        String password = passwordEncoder.encode(info.getPassword());
 
         boolean update = this.update().eq("email", email).set("password", password).update();
 
@@ -148,7 +160,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
             this.deleteEmailVerifyCode(email);
         }
 
-        return update ? null : "更新失败，请联系管理员";
+        return update ? null : "Reset failed, please contact administrator";
     }
 
     /**
@@ -161,8 +173,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
     public String resetConfirm(ConfirmResetVO info) {
         String email = info.getEmail();
         String code = this.getEmailVerifyCode(email);
-        if (code == null) return "请先获取验证码";
-        if (!code.equals(info.getCode())) return "验证码错误，请重新输入";
+
+        if (code == null)
+            return "Please get the verification code first";
+
+        if (!code.equals(info.getCode()))
+            return "Incorrect verification code, please enter again";
+
         return null;
     }
 
@@ -205,11 +222,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
      * @return 账户实体
      */
     public UserDTO getUserByEmail(String email) {
-        return baseMapper.getUserByEmail(email);
-        // return this.query()
-        //         // .eq("username", text).or()
-        //         .eq("email", email)
-        //         .one();
+        return this.baseMapper.getUserByEmail(email);
     }
 
     /**
@@ -219,7 +232,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
      * @return 是否存在
      */
     private boolean existsAccountByEmail(String email) {
-        return this.baseMapper.exists(Wrappers.<UserDTO>query().eq("email", email));
+        return this.baseMapper.exists(Wrappers.<Users>query().eq("email", email));
     }
 
     /**
@@ -229,6 +242,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, UserDTO> impl
      * @return 是否存在
      */
     private boolean existsAccountByUsername(String username) {
-        return this.baseMapper.exists(Wrappers.<UserDTO>query().eq("username", username));
+        return this.baseMapper.exists(Wrappers.<Users>query().eq("username", username));
     }
 }

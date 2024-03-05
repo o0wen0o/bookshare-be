@@ -43,7 +43,7 @@ public class AuthorizeController {
                                         @RequestParam @Pattern(regexp = "(register|reset)") String type,
                                         HttpServletRequest request) {
         return this.messageHandle(() ->
-                accountService.registerEmailVerifyCode(type, String.valueOf(email), request.getRemoteAddr()));
+                accountService.registerEmailVerifyCode(type, email, request.getRemoteAddr()));
     }
 
     /**
