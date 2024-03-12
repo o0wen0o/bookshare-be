@@ -14,9 +14,4 @@
         <result column="is_contribution_visible" property="contributionVisible" />
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, username, email, password, phone_number, is_bookshelf_visible, is_review_visible, is_contribution_visible
-    </sql>
-
 </mapper>
