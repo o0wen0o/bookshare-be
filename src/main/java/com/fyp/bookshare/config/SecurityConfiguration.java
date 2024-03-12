@@ -19,9 +19,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -55,9 +56,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(conf -> conf
                         .requestMatchers("/api/auth/**", "/error").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(SecurityPathConfig.ADMIN_PATHS).hasRole(Const.ROLE_ADMIN)
                         .anyRequest().hasAnyRole(Const.ROLE_DEFAULT)
                 )
                 .formLogin(conf -> conf
@@ -82,6 +84,20 @@ public class SecurityConfiguration {
                 .build();
     }
 
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedMethod("*"); // Or specify: GET, POST, etc.
+        configuration.addAllowedHeader("*"); // Or specify: Content-Type, Authorization, etc.
+        configuration.setAllowCredentials(true); // If you need cookies/header/credentials
+        configuration.addExposedHeader("Authorization"); // If you're using tokens in headers
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Apply CORS configuration to all paths
+        return source;
+    }
+
     /**
      * 将多种类型的Handler整合到同一个方法中，包含：
      * - 登录成功
@@ -102,11 +118,12 @@ public class SecurityConfiguration {
 
         if (exceptionOrAuthentication instanceof AccessDeniedException exception) {
             writer.write(RestBean
-                    .forbidden(exception.getMessage()).asJsonString());
+                    .forbidden(exception.getMessage() + ", please contact the administrator").asJsonString());
 
         } else if (exceptionOrAuthentication instanceof Exception exception) {
             writer.write(RestBean
-                    .unauthorized("Incorrect email or password!").asJsonString());
+                    .unauthorized(exception.getMessage()).asJsonString());
+                    // .unauthorized("Incorrect email or password!").asJsonString());
 
         } else if (exceptionOrAuthentication instanceof Authentication authentication) {
             User user = (User) authentication.getPrincipal();

@@ -31,7 +31,10 @@ public final class Const {
     // 消息队列
     public final static String MQ_MAIL = "mail";
 
+    // 管理员角色, no need to add prefix ROLE_
+    public final static String ROLE_ADMIN = "Admin";
+
     // 用户角色
-    public final static String ROLE_DEFAULT = "user";
+    public final static String ROLE_DEFAULT = "User";
 
 }

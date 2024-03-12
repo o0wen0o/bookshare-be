@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Map;
@@ -107,20 +108,23 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
      * @param info 注册基本信息
      * @return 操作结果，null表示正常，否则为错误原因
      */
+    @Transactional(rollbackFor = Exception.class)
     public String registerEmailAccount(EmailRegisterVO info) {
         String email = info.getEmail();
         String code = this.getEmailVerifyCode(email);
-
-        if (code == null)
-            return "Please get the verification code first";
-
-        if (!code.equals(info.getCode()))
-            return "Incorrect verification code, please enter again";
-
-        if (this.existsAccountByEmail(email))
-            return "This email address has been registered";
-
         String username = info.getUsername();
+
+        if (code == null) {
+            return "Please get the verification code first";
+        }
+
+        if (!code.equals(info.getCode())) {
+            return "Incorrect verification code, please enter again";
+        }
+
+        if (this.existsAccountByEmail(email)) {
+            return "This email address has been registered";
+        }
 
         if (this.existsAccountByUsername(username))
             return "This username has been used by someone else";
@@ -143,7 +147,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
      * @param info 重置基本信息
      * @return 操作结果，null表示正常，否则为错误原因
      */
-    @Override
+    @Transactional(rollbackFor = Exception.class)
     public String resetEmailAccountPassword(EmailResetVO info) {
         String email = info.getEmail();
         String code = info.getCode();
@@ -169,7 +173,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
      * @param info 验证基本信息
      * @return 操作结果，null表示正常，否则为错误原因
      */
-    @Override
     public String resetConfirm(ConfirmResetVO info) {
         String email = info.getEmail();
         String code = this.getEmailVerifyCode(email);

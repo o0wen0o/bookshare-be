@@ -14,11 +14,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 用于处理Jwt令牌的工具类
@@ -93,13 +93,19 @@ public class JwtUtils {
         if (this.frequencyCheck(userId)) {
             Algorithm algorithm = Algorithm.HMAC256(key);
 
+            List<String> authorities = user.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority) // ROLE_[User, Admin]
+                    .map(JwtUtils::extractRoles)
+                    .flatMap(List::stream)
+                    .map(role -> "ROLE_" + role)
+                    .collect(Collectors.toList());
+
             return JWT.create()
                     .withJWTId(UUID.randomUUID().toString())
                     .withClaim("id", userId)
                     .withClaim("email", email)
-                    .withClaim("authorities", user.getAuthorities()
-                            .stream()
-                            .map(GrantedAuthority::getAuthority).toList())
+                    .withClaim("authorities", authorities)
                     .withExpiresAt(expire)
                     .withIssuedAt(new Date())
                     .sign(algorithm);
@@ -147,7 +153,7 @@ public class JwtUtils {
     public UserDetails toUserDetails(DecodedJWT jwt) {
         Map<String, Claim> claims = jwt.getClaims();
         return User
-                .withUsername(claims.get("name").asString())
+                .withUsername(claims.get("email").asString()) // changed name to email
                 .password("******")
                 .authorities(claims.get("authorities").asArray(String.class))
                 .build();
@@ -212,5 +218,23 @@ public class JwtUtils {
      */
     private boolean isInvalidToken(String uuid) {
         return Boolean.TRUE.equals(template.hasKey(Const.JWT_BLACK_LIST + uuid));
+    }
+
+    /**
+     * 从角色字符串中提取角色列表
+     *
+     * @param authority
+     * @return
+     */
+    private static List<String> extractRoles(String authority) {
+        Pattern pattern = Pattern.compile("ROLE_\\[([^\\]]+)\\]");
+        Matcher matcher = pattern.matcher(authority);
+
+        if (matcher.find()) {
+            String roles = matcher.group(1);
+            return List.of(roles.split(", "));
+        }
+
+        return List.of();
     }
 }
