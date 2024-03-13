@@ -28,7 +28,7 @@ public record RestBean<T>(long id, int code, T data, String message) {
     }
 
     public static <T> RestBean<T> success(T data) {
-        return new RestBean<>(requestId(), 200, data, "请求成功");
+        return new RestBean<>(requestId(), 200, data, "Request success");
     }
 
     public static <T> RestBean<T> failure(int code, String message) {

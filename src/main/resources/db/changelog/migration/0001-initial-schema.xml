@@ -102,8 +102,8 @@
             <column name="language" type="varchar(50)"/>
             <column name="img_url" type="varchar(255)"/>
             <column name="rating" type="decimal(3,2)"/>
-            <column name="favourite" type="int"/>
-            <column name="review" type="int"/>
+            <column name="favourite" type="int" defaultValue="0"/>
+            <column name="review" type="int" defaultValue="0"/>
         </createTable>
     </changeSet>
 
