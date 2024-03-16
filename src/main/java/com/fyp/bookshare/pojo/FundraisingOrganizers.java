@@ -37,4 +37,7 @@ public class FundraisingOrganizers implements Serializable {
 
     @TableField("phone_number")
     private String phoneNumber;
+
+    @TableField("created_date")
+    private String createdDate;
 }

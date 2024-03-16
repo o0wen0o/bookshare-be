@@ -1,5 +1,7 @@
 package com.fyp.bookshare.service.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.pojo.Roles;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IRolesService extends IService<Roles> {
 
+    IPage<Roles> getRoles(Page<Roles> page, String filter);
 }

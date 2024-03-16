@@ -1,5 +1,7 @@
 package com.fyp.bookshare.service.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.pojo.FundraisingOrganizers;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFundraisingOrganizersService extends IService<FundraisingOrganizers> {
 
+    IPage<FundraisingOrganizers> getFundraisingOrganizers(Page<FundraisingOrganizers> page, String filter);
 }

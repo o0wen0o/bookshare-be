@@ -8,11 +8,12 @@
         <result column="username" property="username" />
         <result column="email" property="email" />
         <result column="phone_number" property="phoneNumber" />
+        <result column="created_date" property="createdDate" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, email, phone_number
+        id, username, email, phone_number, created_date
     </sql>
 
 </mapper>

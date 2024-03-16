@@ -32,14 +32,8 @@ public class BooksController {
     @Resource
     IBooksService booksService;
 
-    /**
-     * 获取图书列表
-     *
-     * @param params 请求参数
-     * @return 响应结果
-     */
     @GetMapping("/")
-    @Operation(summary = "获取图书列表")
+    @Operation(summary = "Get a list of books")
     public RestBean<IPage<Books>> getBooks(@RequestParam Map<String, String> params) {
         long current = Long.parseLong(params.getOrDefault("current", "1"));
         long size = Long.parseLong(params.getOrDefault("size", "5"));
@@ -94,5 +88,4 @@ public class BooksController {
             return RestBean.failure(400, failureMessage);
         }
     }
-
 }

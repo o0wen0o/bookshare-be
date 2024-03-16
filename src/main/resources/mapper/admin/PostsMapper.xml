@@ -7,15 +7,15 @@
         <id column="id" property="id" />
         <result column="content" property="content" />
         <result column="created_date" property="createdDate" />
-        <result column="like" property="like" />
-        <result column="share" property="share" />
+        <result column="likes" property="likes" />
+        <result column="shares" property="shares" />
         <result column="user_id" property="userId" />
         <result column="book_id" property="bookId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, content, created_date, like, share, user_id, book_id
+        id, content, created_date, likes, shares, user_id, book_id
     </sql>
 
 </mapper>

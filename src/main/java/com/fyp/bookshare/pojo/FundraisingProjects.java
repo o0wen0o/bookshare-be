@@ -54,4 +54,7 @@ public class FundraisingProjects implements Serializable {
 
     @TableField("organizer_id")
     private Integer organizerId;
+
+    @TableField("created_date")
+    private LocalDate createdDate;
 }

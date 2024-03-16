@@ -36,11 +36,11 @@ public class Posts implements Serializable {
     @TableField("created_date")
     private LocalDateTime createdDate;
 
-    @TableField("like")
-    private Integer like;
+    @TableField("likes")
+    private Integer likes;
 
-    @TableField("share")
-    private Integer share;
+    @TableField("shares")
+    private Integer shares;
 
     @TableField("user_id")
     private Integer userId;

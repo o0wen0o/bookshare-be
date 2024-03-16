@@ -13,11 +13,12 @@
         <result column="current_amount" property="currentAmount" />
         <result column="status" property="status" />
         <result column="organizer_id" property="organizerId" />
+        <result column="created_date" property="createdDate" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, project_name, description, start_date, end_date, goal_amount, current_amount, status, organizer_id
+        id, project_name, description, start_date, end_date, goal_amount, current_amount, status, organizer_id, created_date
     </sql>
 
 </mapper>
