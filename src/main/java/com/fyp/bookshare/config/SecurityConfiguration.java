@@ -1,7 +1,7 @@
 package com.fyp.bookshare.config;
 
 import com.fyp.bookshare.entity.RestBean;
-import com.fyp.bookshare.entity.dto.UserDTO;
+import com.fyp.bookshare.entity.dto.UserLoginDTO;
 import com.fyp.bookshare.entity.vo.response.AuthorizeVO;
 import com.fyp.bookshare.filter.JwtAuthenticationFilter;
 import com.fyp.bookshare.filter.RequestLogFilter;
@@ -128,15 +128,15 @@ public class SecurityConfiguration {
         } else if (exceptionOrAuthentication instanceof Authentication authentication) {
             User user = (User) authentication.getPrincipal();
 
-            UserDTO userDTO = service.getUserByEmail(user.getUsername()); // getUsername is get an email
+            UserLoginDTO userLoginDTO = service.getUserByEmail(user.getUsername()); // getUsername is get an email
             Date expire = utils.expireTime();
-            String jwt = utils.createJwt(user, userDTO.getEmail(), userDTO.getId(), expire);
+            String jwt = utils.createJwt(user, userLoginDTO.getEmail(), userLoginDTO.getId(), expire);
 
             if (jwt == null) {
                 writer.write(RestBean.forbidden("Frequent requests, please try again later").asJsonString());
 
             } else {
-                AuthorizeVO vo = userDTO.asViewObject(AuthorizeVO.class, v -> {
+                AuthorizeVO vo = userLoginDTO.asViewObject(AuthorizeVO.class, v -> {
                     v.setExpire(expire);
                     v.setToken(jwt);
                 });

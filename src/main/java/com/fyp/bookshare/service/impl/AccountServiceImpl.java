@@ -2,7 +2,7 @@ package com.fyp.bookshare.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fyp.bookshare.entity.dto.UserDTO;
+import com.fyp.bookshare.entity.dto.UserLoginDTO;
 import com.fyp.bookshare.entity.vo.request.ConfirmResetVO;
 import com.fyp.bookshare.entity.vo.request.EmailRegisterVO;
 import com.fyp.bookshare.entity.vo.request.EmailResetVO;
@@ -63,15 +63,15 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDTO userDTO = this.getUserByEmail(username);
+        UserLoginDTO userLoginDTO = this.getUserByEmail(username);
 
-        if (userDTO == null)
+        if (userLoginDTO == null)
             throw new UsernameNotFoundException("Incorrect email!");
 
         return User
                 .withUsername(username)
-                .password(userDTO.getPassword())
-                .roles(String.valueOf(userDTO.getRoles()))
+                .password(userLoginDTO.getPassword())
+                .roles(String.valueOf(userLoginDTO.getRoles()))
                 .build();
     }
 
@@ -224,7 +224,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
      * @param email 邮件
      * @return 账户实体
      */
-    public UserDTO getUserByEmail(String email) {
+    public UserLoginDTO getUserByEmail(String email) {
         return this.baseMapper.getUserByEmail(email);
     }
 
