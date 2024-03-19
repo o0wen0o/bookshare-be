@@ -16,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IUsersService extends IService<Users> {
 
     IPage<Users> getUsers(Page<Users> page, String filter);
+
+    boolean updateUser(Integer id, Users user);
 }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fyp.bookshare.entity.BaseData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @TableName("users")
 @ApiModel(value = "Users对象", description = "")
-public class Users implements Serializable {
+public class Users implements Serializable, BaseData {
 
     private static final long serialVersionUID = 1L;
 

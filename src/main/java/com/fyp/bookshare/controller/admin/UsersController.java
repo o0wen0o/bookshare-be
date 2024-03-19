@@ -3,11 +3,15 @@ package com.fyp.bookshare.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
+import com.fyp.bookshare.entity.dto.UserDTO;
 import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.admin.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +34,9 @@ public class UsersController {
     @Resource
     IUsersService usersService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("/")
     @Operation(summary = "Get a list of users")
     public RestBean<IPage<Users>> getUsers(@RequestParam Map<String, String> params) {
@@ -45,10 +52,13 @@ public class UsersController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a user by its ID")
-    public RestBean<Users> getUserById(@PathVariable Long id) {
+    public RestBean<UserDTO> getUserById(@PathVariable Long id) {
         Users user = usersService.getById(id);
-        if (user != null) {
-            return RestBean.success(user);
+
+        UserDTO userDTO = user.asViewObject(UserDTO.class);
+
+        if (userDTO != null) {
+            return RestBean.success(userDTO);
         } else {
             return RestBean.failure(400, "User not found");
         }
@@ -57,14 +67,14 @@ public class UsersController {
     @PostMapping("/create")
     @Operation(summary = "Add a new user")
     public RestBean<Void> addUser(@RequestBody Users user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Encrypt the password
         return messageHandle(() -> usersService.save(user), "Failed to add the user");
     }
 
     @PutMapping("/{id}/update")
     @Operation(summary = "Update an existing user")
     public RestBean<Void> updateUser(@PathVariable Integer id, @RequestBody Users user) {
-        user.setId(id);
-        return messageHandle(() -> usersService.updateById(user), "Failed to update the user");
+        return messageHandle(() -> usersService.updateUser(id, user), "Failed to update the user");
     }
 
     @DeleteMapping("/delete/{ids}")
