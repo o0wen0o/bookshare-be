@@ -1,6 +1,8 @@
 package com.fyp.bookshare.service;
 
-import com.fyp.bookshare.entity.dto.OssPolicyResult;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /***
  * @Author 徐庶   QQ:1092002729
@@ -8,5 +10,5 @@ import com.fyp.bookshare.entity.dto.OssPolicyResult;
  */
 public interface OssService {
 
-    public OssPolicyResult policy();
+    public void uploadImage(MultipartFile image, String fileName ) throws IOException;
 }

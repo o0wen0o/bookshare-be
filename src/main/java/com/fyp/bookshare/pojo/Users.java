@@ -10,10 +10,7 @@ import java.util.Date;
 import com.fyp.bookshare.entity.BaseData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -25,6 +22,7 @@ import lombok.Setter;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @TableName("users")
 @ApiModel(value = "Users对象", description = "")
 public class Users implements Serializable, BaseData {
@@ -57,4 +55,7 @@ public class Users implements Serializable, BaseData {
 
     @TableField("created_date")
     private Date createdDate;
+
+    @TableField("avatar")
+    private String avatar;
 }

@@ -20,6 +20,8 @@ public class AuthorizeVO {
 
     private String email;
 
+    private String avatar;
+
     private List<String> roles;
 
     private String token;

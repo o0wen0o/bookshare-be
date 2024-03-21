@@ -130,7 +130,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
             return "This username has been used by someone else";
 
         String password = passwordEncoder.encode(info.getPassword());
-        Users user = new Users(null, username, email, password, null, null, null, null, new Date());
+        Users user = new Users(null, username, email, password, null, null, null, null, new Date(), null);
 
         if (!this.save(user)) {
             return "Registration failed, please contact administrator";

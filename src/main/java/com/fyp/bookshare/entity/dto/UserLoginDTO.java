@@ -11,8 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 数据库中的用户信息
- * use for login
+ * use for login and basic user info after login
  */
 @Data
 @AllArgsConstructor
@@ -29,6 +28,8 @@ public class UserLoginDTO implements BaseData {
     private String email;
 
     private Date createdDate;
+
+    private String avatar;
 
     private List<String> roles;
 }

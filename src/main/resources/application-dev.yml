@@ -8,6 +8,9 @@ springdoc:
     operations-sorter: alpha
 
 spring:
+  config:
+    import: classpath:application-secret.yml
+
   mail:
     host: smtp.gmail.com
     username: kfc16978.ww@gmail.com
@@ -64,16 +67,3 @@ spring:
       origin: '*'
       credentials: false
       methods: '*'
-
-aliyun:
-  oss:
-    endpoint: oss-cn-chengdu.aliyuncs.com # oss对外服务的访问域名
-    accessKeyId: LTAI4GHWCM5LdNoiLy35mBog # 访问身份验证中用到用户标识
-    accessKeySecret: Vytl0LAIKGmiWATIuuwevN3LjzQs9S # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
-    bucketName: tulingmall-xushu # oss的存储空间
-    policy:
-      expire: 300 # 签名有效期(S)
-    maxSize: 10 # 上传文件大小(M)
-    #callback:  # 文件上传成功后的回调地址
-    dir:
-      prefix: tulingmall/images/ # 上传文件夹路径前缀

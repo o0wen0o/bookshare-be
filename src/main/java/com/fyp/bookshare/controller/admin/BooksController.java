@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class BooksController {
     @Operation(summary = "Get a book by its ID")
     public RestBean<Books> getBookById(@PathVariable Long id) {
         Books book = booksService.getById(id);
+
         if (book != null) {
             return RestBean.success(book);
         } else {
@@ -57,15 +59,14 @@ public class BooksController {
 
     @PostMapping("/create")
     @Operation(summary = "Add a new book")
-    public RestBean<Void> addBook(@RequestBody Books book) {
-        return messageHandle(() -> booksService.save(book), "Failed to add the book");
+    public RestBean<Void> addBook(@ModelAttribute Books book, MultipartFile image) {
+        return messageHandle(() -> booksService.addBook(book, image), "Failed to add the book");
     }
 
     @PutMapping("/{id}/update")
     @Operation(summary = "Update an existing book")
-    public RestBean<Void> updateBook(@PathVariable Integer id, @RequestBody Books book) {
-        book.setId(id);
-        return messageHandle(() -> booksService.updateById(book), "Failed to update the book");
+    public RestBean<Void> updateBook(@PathVariable Integer id, @ModelAttribute Books book, MultipartFile image) {
+        return messageHandle(() -> booksService.updateBook(id, book, image), "Failed to update the book");
     }
 
     @DeleteMapping("/delete/{ids}")

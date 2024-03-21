@@ -1,23 +1,22 @@
 package com.fyp.bookshare.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fyp.bookshare.entity.BaseData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
+ *
+ *
  * @author o0wen0o
  * @create 2024-03-19 12:45 PM
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserDTO implements BaseData {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -25,6 +24,8 @@ public class UserDTO {
     private String username;
 
     private String email;
+
+    private String password;
 
     private String phoneNumber;
 
@@ -34,5 +35,5 @@ public class UserDTO {
 
     private Boolean contributionVisible;
 
-    private Date createdDate;
+    private String avatar;
 }

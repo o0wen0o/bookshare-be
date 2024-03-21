@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -56,25 +57,23 @@ public class UsersController {
         Users user = usersService.getById(id);
 
         UserDTO userDTO = user.asViewObject(UserDTO.class);
+        userDTO.setPassword(null);
 
-        if (userDTO != null) {
-            return RestBean.success(userDTO);
-        } else {
-            return RestBean.failure(400, "User not found");
-        }
+        return RestBean.success(userDTO);
     }
 
     @PostMapping("/create")
     @Operation(summary = "Add a new user")
-    public RestBean<Void> addUser(@RequestBody Users user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // Encrypt the password
-        return messageHandle(() -> usersService.save(user), "Failed to add the user");
+    public RestBean<Void> addUser(@ModelAttribute UserDTO userDTO, MultipartFile image) {
+        Users user = userDTO.asViewObject(Users.class);
+        return messageHandle(() -> usersService.addUser(user, image), "Failed to add the user");
     }
 
     @PutMapping("/{id}/update")
     @Operation(summary = "Update an existing user")
-    public RestBean<Void> updateUser(@PathVariable Integer id, @RequestBody Users user) {
-        return messageHandle(() -> usersService.updateUser(id, user), "Failed to update the user");
+    public RestBean<Void> updateUser(@PathVariable Integer id, @ModelAttribute UserDTO userDTO, MultipartFile image) {
+        Users user = userDTO.asViewObject(Users.class);
+        return messageHandle(() -> usersService.updateUser(id, user, image), "Failed to update the user");
     }
 
     @DeleteMapping("/delete/{ids}")

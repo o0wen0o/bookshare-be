@@ -205,6 +205,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>application.yml</include>
+                    <include>application-secret.yml</include>
                     <include>application-${environment}.yml</include>
                 </includes>
             </resource>
