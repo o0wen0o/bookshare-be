@@ -8,14 +8,14 @@
         <result column="parent_id" property="parentId" />
         <result column="text" property="text" />
         <result column="created_date" property="createdDate" />
-        <result column="like" property="like" />
+        <result column="likes" property="likes" />
         <result column="user_id" property="userId" />
         <result column="book_id" property="bookId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, text, created_date, like, user_id, book_id
+        id, parent_id, text, created_date, likes, user_id, book_id
     </sql>
 
 </mapper>

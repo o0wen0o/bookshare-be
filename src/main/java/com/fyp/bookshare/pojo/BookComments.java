@@ -39,8 +39,8 @@ public class BookComments implements Serializable {
     @TableField("created_date")
     private LocalDateTime createdDate;
 
-    @TableField("like")
-    private Integer like;
+    @TableField("likes")
+    private Integer likes;
 
     @TableField("user_id")
     private Integer userId;
