@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.entity.dto.PostCommentsDTO;
+import com.fyp.bookshare.entity.dto.PostLikesDTO;
 import com.fyp.bookshare.entity.dto.PostsDTO;
+import com.fyp.bookshare.entity.dto.UserDTO;
+import com.fyp.bookshare.pojo.PostLikes;
 import com.fyp.bookshare.service.admin.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -20,6 +23,7 @@ import java.util.function.BooleanSupplier;
  * @create 2024-03-31 10:26 PM
  */
 @RestController
+@Slf4j
 @RequestMapping("/api/community")
 public class CommunityController {
 
@@ -54,10 +58,16 @@ public class CommunityController {
         return RestBean.success(postCommentsDTO);
     }
 
+    @PostMapping("/likePost")
+    @Operation(summary = "Like a post")
+    public RestBean<Void> likePost(@RequestParam Integer postId, @RequestParam Integer userId) {
+        return messageHandle(() -> postLikesService.likePost(postId, userId), "Failed to like the post");
+    }
+
     @DeleteMapping("/unlikePost/{postId}/{userId}")
     @Operation(summary = "Unlike a post")
     public RestBean<Void> unlikePost(@PathVariable Integer postId, @PathVariable Integer userId) {
-        return messageHandle(() -> postLikesService.unlikePost(userId, postId), "Failed to unlike the post");
+        return messageHandle(() -> postLikesService.unlikePost(postId, userId), "Failed to unlike the post");
     }
 
     /**

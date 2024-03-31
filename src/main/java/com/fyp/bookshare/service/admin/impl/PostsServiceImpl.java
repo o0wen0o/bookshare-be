@@ -46,14 +46,21 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
     }
 
     @Override
-    @Transactional
-    public boolean decrementLikes(Integer postId) {
-        // Create an UpdateWrapper instance
+    public boolean incrementLikes(Integer postId) {
         UpdateWrapper<Posts> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", postId)
-                .setSql("likes = likes - 1"); // Decrement likes directly in the SQL
+                .setSql("likes = likes + 1");
 
-        // Execute the update operation
+        return postsMapper.update(null, updateWrapper) > 0;
+    }
+
+    @Override
+    @Transactional
+    public boolean decrementLikes(Integer postId) {
+        UpdateWrapper<Posts> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", postId)
+                .setSql("likes = likes - 1");
+
         return postsMapper.update(null, updateWrapper) > 0;
     }
 }

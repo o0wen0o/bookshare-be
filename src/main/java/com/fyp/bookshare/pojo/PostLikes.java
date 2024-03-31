@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -18,6 +20,8 @@ import lombok.Setter;
  * @author o0wen0o
  * @since 2024-02-28
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @TableName("post_likes")

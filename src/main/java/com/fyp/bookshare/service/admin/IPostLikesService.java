@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author o0wen0o
@@ -13,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPostLikesService extends IService<PostLikes> {
 
-    boolean unlikePost(Integer userId, Integer postId);
+    boolean likePost(Integer postId, Integer userId);
+
+    boolean unlikePost(Integer postId, Integer userId);
 }

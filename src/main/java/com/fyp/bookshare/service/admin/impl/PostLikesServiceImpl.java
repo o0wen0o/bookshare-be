@@ -30,7 +30,21 @@ public class PostLikesServiceImpl extends ServiceImpl<PostLikesMapper, PostLikes
 
     @Override
     @Transactional
-    public boolean unlikePost(Integer userId, Integer postId) {
+    public boolean likePost(Integer postId, Integer userId) {
+        // Step 1: Create a new like record
+        boolean save = this.save(new PostLikes(null, postId, userId));
+
+        if (save) {
+            // Step 2: Increment likes count in posts
+            return postsService.incrementLikes(postId);
+        }
+
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public boolean unlikePost(Integer postId, Integer userId) {
         // Step 1: Delete the like record
         QueryWrapper<PostLikes> deleteWrapper = new QueryWrapper<>();
         deleteWrapper.eq("user_id", userId).eq("post_id", postId);
