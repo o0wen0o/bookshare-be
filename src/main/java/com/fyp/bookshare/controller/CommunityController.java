@@ -47,4 +47,13 @@ public class CommunityController {
         return RestBean.success(postsDTO);
     }
 
+    @GetMapping("/getPostComments")
+    @Operation(summary = "Get a list of post comments")
+    public RestBean<List<PostCommentsDTO>> getPostCommentsDTO(@RequestParam Map<String, String> params) {
+        Integer postId = Integer.valueOf(params.getOrDefault("postId", null));
+        Integer userId = Integer.valueOf(params.getOrDefault("userId", null));
+
+        List<PostCommentsDTO> postCommentsDTO = postCommentsService.getPostCommentsDTO(postId, userId);
+        return RestBean.success(postCommentsDTO);
+    }
 }

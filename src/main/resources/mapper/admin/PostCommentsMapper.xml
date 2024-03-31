@@ -18,4 +18,26 @@
         id, parent_id, text, created_date, like, user_id, post_id
     </sql>
 
+    <select id="getPostCommentsDTO" resultType="com.fyp.bookshare.entity.dto.PostCommentsDTO">
+        SELECT
+            pc.id AS id,
+            u.username AS username,
+            u.avatar AS avatar,
+            pc.text AS text,
+            pc.created_date AS createdDate,
+            pc.likes AS likes,
+            IF(pcl.post_comment_id IS NOT NULL, TRUE, FALSE) AS thumbed
+        FROM
+            post_comments pc
+                JOIN
+            users u ON pc.user_id = u.id
+                LEFT JOIN
+                (SELECT post_comment_id FROM post_comment_likes WHERE user_id = #{userId}) pcl ON pc.id = pcl.post_comment_id
+        WHERE
+            pc.post_id = #{postId}
+        GROUP BY
+            pc.id, u.username, u.avatar, pc.text, pc.created_date
+        ORDER BY
+            pc.created_date DESC
+    </select>
 </mapper>

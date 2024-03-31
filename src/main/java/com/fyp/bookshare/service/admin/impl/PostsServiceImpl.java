@@ -3,11 +3,13 @@ package com.fyp.bookshare.service.admin.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.PostsDTO;
 import com.fyp.bookshare.pojo.Posts;
 import com.fyp.bookshare.mapper.admin.PostsMapper;
-import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.admin.IPostsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,5 +36,10 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
         }
 
         return postsMapper.selectPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<PostsDTO> getPostsDTO(Page<PostsDTO> page, Integer userId) {
+        return postsMapper.getPostsDTO(page, userId);
     }
 }
