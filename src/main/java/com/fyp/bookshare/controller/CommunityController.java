@@ -5,21 +5,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.entity.dto.PostCommentsDTO;
 import com.fyp.bookshare.entity.dto.PostsDTO;
-import com.fyp.bookshare.pojo.Books;
-import com.fyp.bookshare.pojo.Posts;
-import com.fyp.bookshare.service.admin.IBookCommentsService;
-import com.fyp.bookshare.service.admin.IBooksService;
-import com.fyp.bookshare.service.admin.IPostCommentsService;
-import com.fyp.bookshare.service.admin.IPostsService;
+import com.fyp.bookshare.service.admin.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 
 /**
  * @author o0wen0o
@@ -34,6 +28,9 @@ public class CommunityController {
 
     @Resource
     IPostCommentsService postCommentsService;
+
+    @Resource
+    IPostLikesService postLikesService;
 
     @GetMapping("/getPosts")
     @Operation(summary = "Get a list of posts")
@@ -55,5 +52,26 @@ public class CommunityController {
 
         List<PostCommentsDTO> postCommentsDTO = postCommentsService.getPostCommentsDTO(postId, userId);
         return RestBean.success(postCommentsDTO);
+    }
+
+    @DeleteMapping("/unlikePost/{postId}/{userId}")
+    @Operation(summary = "Unlike a post")
+    public RestBean<Void> unlikePost(@PathVariable Integer postId, @PathVariable Integer userId) {
+        return messageHandle(() -> postLikesService.unlikePost(userId, postId), "Failed to unlike the post");
+    }
+
+    /**
+     * 针对于返回值为String作为错误信息的方法进行统一处理
+     *
+     * @param action 具体操作
+     * @return 响应结果
+     */
+    private RestBean<Void> messageHandle(BooleanSupplier action, String failureMessage) {
+        boolean result = action.getAsBoolean();
+        if (result) {
+            return RestBean.success();
+        } else {
+            return RestBean.failure(400, failureMessage);
+        }
     }
 }

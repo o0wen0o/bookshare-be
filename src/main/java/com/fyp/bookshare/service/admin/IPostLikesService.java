@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPostLikesService extends IService<PostLikes> {
 
+    boolean unlikePost(Integer userId, Integer postId);
 }
