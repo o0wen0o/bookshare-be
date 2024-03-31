@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -20,10 +17,9 @@ import lombok.Setter;
  * @author o0wen0o
  * @since 2024-02-28
  */
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @TableName("post_likes")
 @ApiModel(value = "PostLikes对象", description = "")
 public class PostLikes implements Serializable {

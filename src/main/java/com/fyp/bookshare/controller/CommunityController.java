@@ -33,6 +33,9 @@ public class CommunityController {
     @Resource
     IPostLikesService postLikesService;
 
+    @Resource
+    IPostCommentLikesService postCommentLikesService;
+
     @GetMapping("/getPosts")
     @Operation(summary = "Get a list of posts")
     public RestBean<IPage<PostsDTO>> getPostsDTO(@RequestParam Map<String, String> params) {
@@ -65,6 +68,18 @@ public class CommunityController {
     @Operation(summary = "Unlike a post")
     public RestBean<Void> unlikePost(@PathVariable Integer postId, @PathVariable Integer userId) {
         return messageHandle(() -> postLikesService.unlikePost(postId, userId), "Failed to unlike the post");
+    }
+
+    @PostMapping("/likePostComment")
+    @Operation(summary = "Like a post comment")
+    public RestBean<Void> likePostComment(@RequestParam Integer postCommentId, @RequestParam Integer userId) {
+        return messageHandle(() -> postCommentLikesService.likePostComment(postCommentId, userId), "Failed to like the post comment");
+    }
+
+    @DeleteMapping("/unlikePostComment/{postCommentId}/{userId}")
+    @Operation(summary = "Unlike a post comment")
+    public RestBean<Void> unlikePostComment(@PathVariable Integer postCommentId, @PathVariable Integer userId) {
+        return messageHandle(() -> postCommentLikesService.unlikePostComment(postCommentId, userId), "Failed to unlike the post comment");
     }
 
     /**

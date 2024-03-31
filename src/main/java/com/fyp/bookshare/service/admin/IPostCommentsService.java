@@ -18,4 +18,8 @@ import java.util.List;
 public interface IPostCommentsService extends IService<PostComments> {
 
     List<PostCommentsDTO> getPostCommentsDTO(Integer postId, Integer userId);
+
+    boolean incrementLikes(Integer postCommentId);
+
+    boolean decrementLikes(Integer postCommentId);
 }
