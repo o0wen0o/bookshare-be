@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 登录验证成功的用户信息响应
+ * User information response for successful login verification
  */
 @Data
 public class AuthorizeVO {

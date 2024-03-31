@@ -6,7 +6,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 确认重置密码
+ * Confirm password reset
  */
 @Data
 @AllArgsConstructor

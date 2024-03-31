@@ -6,7 +6,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 用户注册表单信息
+ * User registration form information
  */
 @Data
 public class EmailRegisterVO {

@@ -53,13 +53,10 @@ public class UsersController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a user by its ID")
-    public RestBean<UserDTO> getUserById(@PathVariable Long id) {
+    public RestBean<Users> getUserById(@PathVariable Long id) {
         Users user = usersService.getById(id);
-
-        UserDTO userDTO = user.asViewObject(UserDTO.class);
-        userDTO.setPassword(null);
-
-        return RestBean.success(userDTO);
+        user.setPassword(null);
+        return RestBean.success(user);
     }
 
     @PostMapping("/create")

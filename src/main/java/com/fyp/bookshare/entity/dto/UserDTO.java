@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *
+ * return value for user controller
  *
  * @author o0wen0o
  * @create 2024-03-19 12:45 PM

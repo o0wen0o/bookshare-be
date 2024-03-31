@@ -3,19 +3,12 @@ package com.fyp.bookshare.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
-import com.fyp.bookshare.entity.dto.UserDTO;
 import com.fyp.bookshare.pojo.BookComments;
-import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.admin.IBookCommentsService;
-import com.fyp.bookshare.service.admin.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
