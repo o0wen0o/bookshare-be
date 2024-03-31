@@ -46,6 +46,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
     }
 
     @Override
+    @Transactional
     public boolean incrementLikes(Integer postId) {
         UpdateWrapper<Posts> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", postId)

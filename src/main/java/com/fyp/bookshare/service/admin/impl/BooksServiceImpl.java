@@ -12,6 +12,7 @@ import com.fyp.bookshare.service.impl.OssServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -48,6 +49,7 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
     }
 
     @Override
+    @Transactional
     public boolean addBook(Books book, MultipartFile image) {
         // Save the book without the image first to generate the book ID
         boolean isSave = this.save(book);
@@ -64,6 +66,7 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
     }
 
     @Override
+    @Transactional
     public boolean updateBook(Integer id, Books book, MultipartFile image) {
         book.setId(id);
 

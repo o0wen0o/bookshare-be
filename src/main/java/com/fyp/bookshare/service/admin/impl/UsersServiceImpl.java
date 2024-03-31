@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -52,6 +53,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
+    @Transactional
     public boolean addUser(Users user, MultipartFile image) {
         user.setPassword(passwordEncoder.encode(user.getPassword())); // Encrypt the password
 
@@ -72,6 +74,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
+    @Transactional
     public boolean updateUser(Integer id, Users user, MultipartFile image) {
         // Fetch the existing user to get the current details, especially the password
         Users existingUser = this.getById(id);
