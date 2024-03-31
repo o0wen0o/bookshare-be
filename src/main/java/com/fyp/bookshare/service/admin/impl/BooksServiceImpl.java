@@ -9,6 +9,7 @@ import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.admin.IBooksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements IBooksService {
 
+    @Resource
+    private BooksMapper booksMapper;
+
     @Autowired
-    OssServiceImpl ossService;
+    private OssServiceImpl ossService;
 
     @Override
     public IPage<Books> getBooks(Page<Books> page, String filter) {
@@ -40,7 +44,7 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
                     .or().like("language", filter);
         }
 
-        return this.baseMapper.selectPage(page, wrapper);
+        return booksMapper.selectPage(page, wrapper);
     }
 
     @Override

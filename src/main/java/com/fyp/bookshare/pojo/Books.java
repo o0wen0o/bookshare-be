@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import com.fyp.bookshare.entity.BaseData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -24,7 +26,7 @@ import lombok.Setter;
 @Setter
 @TableName("books")
 @ApiModel(value = "Books对象", description = "")
-public class Books implements Serializable {
+public class Books implements Serializable, BaseData {
 
     private static final long serialVersionUID = 1L;
 

@@ -9,6 +9,7 @@ import com.fyp.bookshare.service.OssService;
 import com.fyp.bookshare.service.admin.IUsersService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
+    @Resource
+    private UsersMapper usersMapper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -44,7 +48,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
                     .or().like("created_date", filter);
         }
 
-        return this.baseMapper.selectPage(page, wrapper);
+        return usersMapper.selectPage(page, wrapper);
     }
 
     @Override
