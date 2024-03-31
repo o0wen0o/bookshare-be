@@ -18,4 +18,28 @@
         id, content, created_date, likes, shares, user_id, book_id
     </sql>
 
+    <select id="getPostsDTO" resultType="com.fyp.bookshare.entity.dto.PostsDTO">
+        SELECT
+            p.id,
+            u.username,
+            u.avatar,
+            p.content,
+            p.created_date,
+            p.likes,
+            IF(pl.post_id IS NOT NULL, TRUE, FALSE) AS thumbed,
+            p.shares,
+            COALESCE(pc.commentCount, 0) AS commentCount
+        FROM
+            posts p
+        JOIN
+            users u ON p.user_id = u.id
+        LEFT JOIN
+            (SELECT post_id, COUNT(*) AS commentCount FROM post_comments GROUP BY post_id) pc ON p.id = pc.post_id
+        LEFT JOIN
+            (SELECT post_id FROM post_likes WHERE user_id = #{userId}) pl ON p.id = pl.post_id
+        GROUP BY
+            p.id
+        ORDER BY
+            p.created_date DESC
+    </select>
 </mapper>

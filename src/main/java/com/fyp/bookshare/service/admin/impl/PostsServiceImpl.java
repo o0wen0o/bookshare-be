@@ -21,6 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements IPostsService {
 
+    @Resource
+    PostsMapper postsMapper;
+
     @Override
     public IPage<Posts> getPosts(Page<Posts> page, String filter) {
         QueryWrapper<Posts> wrapper = new QueryWrapper<>();
@@ -30,6 +33,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
                     .or().like("created_date", filter);
         }
 
-        return this.baseMapper.selectPage(page, wrapper);
+        return postsMapper.selectPage(page, wrapper);
     }
 }

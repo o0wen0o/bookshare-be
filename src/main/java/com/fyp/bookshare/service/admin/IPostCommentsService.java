@@ -1,7 +1,11 @@
 package com.fyp.bookshare.service.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fyp.bookshare.entity.dto.PostCommentsDTO;
 import com.fyp.bookshare.pojo.PostComments;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPostCommentsService extends IService<PostComments> {
 
+    List<PostCommentsDTO> getPostCommentsDTO(Integer postId, Integer userId);
 }
