@@ -35,8 +35,11 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
     }
 
     @Override
-    public boolean createPostComment(PostComments postComments) {
-        return false;
+    public Integer createPostComment(PostComments postComments) {
+        if (postCommentsMapper.insert(postComments) > 0) {
+            return postComments.getId();
+        }
+        return 0;
     }
 
     @Override

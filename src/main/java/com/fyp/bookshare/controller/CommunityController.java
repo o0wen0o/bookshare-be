@@ -70,8 +70,11 @@ public class CommunityController {
 
     @PostMapping("/createPostComment")
     @Operation(summary = "Create a post comment")
-    public RestBean<Void> createPostComment(@RequestBody PostComments postComments) {
-        return messageHandle(() -> postCommentsService.createPostComment(postComments), "Failed to create the post comment");
+    public RestBean<Integer> createPostComment(@RequestBody PostComments postComments) {
+        Integer postCommentId = postCommentsService.createPostComment(postComments);
+        return postCommentId != null ?
+                RestBean.success(postCommentId) :
+                RestBean.failure(400, "Failed to create the post comment");
     }
 
 
