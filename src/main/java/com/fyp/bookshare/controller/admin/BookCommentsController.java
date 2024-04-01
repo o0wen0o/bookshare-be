@@ -27,15 +27,16 @@ public class BookCommentsController {
     @Resource
     IBookCommentsService bookCommentsService;
 
-    @GetMapping("/")
+    @GetMapping("/getBookCommentsByBookId")
     @Operation(summary = "Get a list of bookComments")
-    public RestBean<IPage<BookComments>> getBookComments(@RequestParam Map<String, String> params) {
+    public RestBean<IPage<BookComments>> getBookCommentsByBookId(@RequestParam Map<String, String> params) {
         long current = Long.parseLong(params.getOrDefault("current", "1"));
         long size = Long.parseLong(params.getOrDefault("size", "5"));
         String filter = params.getOrDefault("filter", "");
+        Integer bookId = Integer.valueOf(params.getOrDefault("bookId", "0"));
 
         Page<BookComments> page = new Page<>(current, size);
-        IPage<BookComments> bookComments = bookCommentsService.getBookComments(page, filter);
+        IPage<BookComments> bookComments = bookCommentsService.getBookCommentsByBookId(page, bookId, filter);
         return RestBean.success(bookComments);
     }
 
