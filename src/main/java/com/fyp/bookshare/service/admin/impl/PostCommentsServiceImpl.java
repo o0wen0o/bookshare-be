@@ -35,6 +35,11 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
     }
 
     @Override
+    public boolean createPostComment(PostComments postComments) {
+        return false;
+    }
+
+    @Override
     @Transactional
     public boolean incrementLikes(Integer postCommentId) {
         UpdateWrapper<PostComments> updateWrapper = new UpdateWrapper<>();

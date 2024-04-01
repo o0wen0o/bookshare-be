@@ -19,6 +19,8 @@ public interface IPostCommentsService extends IService<PostComments> {
 
     List<PostCommentsDTO> getPostCommentsDTO(Integer postId, Integer userId);
 
+    boolean createPostComment(PostComments postComments);
+
     boolean incrementLikes(Integer postCommentId);
 
     boolean decrementLikes(Integer postCommentId);

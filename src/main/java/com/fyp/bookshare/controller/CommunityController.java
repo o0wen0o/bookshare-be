@@ -5,6 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.entity.dto.PostCommentsDTO;
 import com.fyp.bookshare.entity.dto.PostsDTO;
+import com.fyp.bookshare.pojo.PostCommentLikes;
+import com.fyp.bookshare.pojo.PostComments;
+import com.fyp.bookshare.pojo.PostLikes;
+import com.fyp.bookshare.pojo.Posts;
 import com.fyp.bookshare.service.admin.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -58,9 +62,25 @@ public class CommunityController {
         return RestBean.success(postCommentsDTO);
     }
 
+    // @PostMapping("/createPost")
+    // @Operation(summary = "Create a post")
+    // public RestBean<Void> createPost(@RequestBody Posts posts) {
+    //     return messageHandle(() -> postsService.createPost(posts), "Failed to create the post");
+    // }
+
+    @PostMapping("/createPostComment")
+    @Operation(summary = "Create a post comment")
+    public RestBean<Void> createPostComment(@RequestBody PostComments postComments) {
+        return messageHandle(() -> postCommentsService.createPostComment(postComments), "Failed to create the post comment");
+    }
+
+
     @PostMapping("/likePost")
     @Operation(summary = "Like a post")
-    public RestBean<Void> likePost(@RequestParam Integer postId, @RequestParam Integer userId) {
+    public RestBean<Void> likePost(@RequestBody PostLikes postLikes) {
+        Integer postId = postLikes.getPostId();
+        Integer userId = postLikes.getUserId();
+
         return messageHandle(() -> postLikesService.likePost(postId, userId), "Failed to like the post");
     }
 
@@ -72,7 +92,10 @@ public class CommunityController {
 
     @PostMapping("/likePostComment")
     @Operation(summary = "Like a post comment")
-    public RestBean<Void> likePostComment(@RequestParam Integer postCommentId, @RequestParam Integer userId) {
+    public RestBean<Void> likePostComment(@RequestBody PostCommentLikes postCommentLikes) {
+        Integer postCommentId = postCommentLikes.getPostCommentId();
+        Integer userId = postCommentLikes.getUserId();
+
         return messageHandle(() -> postCommentLikesService.likePostComment(postCommentId, userId), "Failed to like the post comment");
     }
 
