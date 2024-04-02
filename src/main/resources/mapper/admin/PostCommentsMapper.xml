@@ -38,6 +38,6 @@
         GROUP BY
             pc.id, u.username, u.avatar, pc.text, pc.created_date
         ORDER BY
-            pc.created_date DESC
+            pc.created_date ASC
     </select>
 </mapper>

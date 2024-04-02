@@ -18,27 +18,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.function.Supplier;
 
 /**
- * 用于验证相关Controller包含用户的注册、重置密码等操作
+ * Used to verify that relevant Controllers include user registration, password reset
  */
 @Validated
 @RestController
 @RequestMapping("/api/auth")
-@Tag(name = "登录校验相关", description = "包括用户登录、注册、验证码请求等操作。")
+@Tag(name = "Login verification related", description = "Including user login, registration, verification code request and other operations")
 public class AuthorizeController {
 
     @Resource
     AccountService accountService;
 
     /**
-     * 请求邮件验证码
+     * Request email verification code
      *
-     * @param email   请求邮件
-     * @param type    类型
-     * @param request 请求
-     * @return 是否请求成功
+     * @param email   request email
+     * @param type    type
+     * @param request request
+     * @return Whether the request is successful
      */
     @GetMapping("/ask-code")
-    @Operation(summary = "请求邮件验证码")
+    @Operation(summary = "Request email verification code")
     public RestBean<Void> askVerifyCode(@RequestParam @Email String email,
                                         @RequestParam @Pattern(regexp = "(register|reset)") String type,
                                         HttpServletRequest request) {
@@ -47,38 +47,38 @@ public class AuthorizeController {
     }
 
     /**
-     * 进行用户注册操作，需要先请求邮件验证码
+     * To perform user registration, you need to request an email verification code first
      *
-     * @param vo 注册信息
-     * @return 是否注册成功
+     * @param vo registration information
+     * @return Whether registration is successful
      */
     @PostMapping("/register")
-    @Operation(summary = "用户注册操作")
+    @Operation(summary = "User registration operation")
     public RestBean<Void> register(@RequestBody @Valid EmailRegisterVO vo) {
         return this.messageHandle(() ->
                 accountService.registerEmailAccount(vo));
     }
 
     /**
-     * 执行密码重置确认，检查验证码是否正确
+     * Perform password reset confirmation and check whether the verification code is correct
      *
-     * @param vo 密码重置信息
-     * @return 是否操作成功
+     * @param vo password reset information
+     * @return Whether the operation was successful
      */
     @PostMapping("/reset-confirm")
-    @Operation(summary = "密码重置确认")
+    @Operation(summary = "Password reset confirmation")
     public RestBean<Void> resetConfirm(@RequestBody @Valid ConfirmResetVO vo) {
         return this.messageHandle(() -> accountService.resetConfirm(vo));
     }
 
     /**
-     * 执行密码重置操作
+     * Perform password reset operation
      *
-     * @param vo 密码重置信息
-     * @return 是否操作成功
+     * @param vo password reset information
+     * @return Whether the operation was successful
      */
     @PostMapping("/reset-password")
-    @Operation(summary = "密码重置操作")
+    @Operation(summary = "Password reset operation")
     public RestBean<Void> resetPassword(@RequestBody @Valid EmailResetVO vo) {
         return this.messageHandle(() ->
                 accountService.resetEmailAccountPassword(vo));
