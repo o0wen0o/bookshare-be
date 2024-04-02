@@ -2,9 +2,12 @@ package com.fyp.bookshare.service.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.BookSelectionsDTO;
 import com.fyp.bookshare.pojo.Books;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IBooksService extends IService<Books> {
 
     IPage<Books> getBooks(Page<Books> page, String filter);
+
+    IPage<BookSelectionsDTO> getBookSelections(Page<Books> page, String filter);
 
     boolean addBook(Books book, MultipartFile image);
 

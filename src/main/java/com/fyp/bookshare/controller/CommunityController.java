@@ -3,12 +3,10 @@ package com.fyp.bookshare.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
+import com.fyp.bookshare.entity.dto.BookSelectionsDTO;
 import com.fyp.bookshare.entity.dto.PostCommentsDTO;
 import com.fyp.bookshare.entity.dto.PostsDTO;
-import com.fyp.bookshare.pojo.PostCommentLikes;
-import com.fyp.bookshare.pojo.PostComments;
-import com.fyp.bookshare.pojo.PostLikes;
-import com.fyp.bookshare.pojo.Posts;
+import com.fyp.bookshare.pojo.*;
 import com.fyp.bookshare.service.admin.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -33,6 +31,9 @@ public class CommunityController {
 
     @Resource
     IPostCommentsService postCommentsService;
+
+    @Resource
+    IBooksService booksService;
 
     @Resource
     IPostLikesService postLikesService;
@@ -62,11 +63,24 @@ public class CommunityController {
         return RestBean.success(postCommentsDTO);
     }
 
-    // @PostMapping("/createPost")
-    // @Operation(summary = "Create a post")
-    // public RestBean<Void> createPost(@RequestBody Posts posts) {
-    //     return messageHandle(() -> postsService.createPost(posts), "Failed to create the post");
-    // }
+    @GetMapping("getBookSelections")
+    @Operation(summary = "Get a list of book selections")
+    public RestBean<IPage<BookSelectionsDTO>> getBookSelections(@RequestParam Map<String, String> params) {
+        long current = Long.parseLong(params.getOrDefault("current", "1"));
+        long size = Long.parseLong(params.getOrDefault("size", "5"));
+        String filter = params.getOrDefault("filter", "");
+
+        Page<Books> page = new Page<>(current, size);
+
+        IPage<BookSelectionsDTO> bookSelectionsDTOs = booksService.getBookSelections(page, filter);
+        return RestBean.success(bookSelectionsDTOs);
+    }
+
+    @PostMapping("/createPost")
+    @Operation(summary = "Create a post")
+    public RestBean<Void> createPost(@RequestBody Posts posts) {
+        return messageHandle(() -> postsService.createPost(posts), "Failed to create the post");
+    }
 
     @PostMapping("/createPostComment")
     @Operation(summary = "Create a post comment")

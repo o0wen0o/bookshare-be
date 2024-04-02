@@ -3,17 +3,20 @@ package com.fyp.bookshare.service.admin.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fyp.bookshare.pojo.Books;
-import com.fyp.bookshare.mapper.admin.BooksMapper;
-import com.fyp.bookshare.pojo.Users;
-import com.fyp.bookshare.service.admin.IBooksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fyp.bookshare.entity.dto.BookSelectionsDTO;
+import com.fyp.bookshare.mapper.admin.BooksMapper;
+import com.fyp.bookshare.pojo.Books;
+import com.fyp.bookshare.service.admin.IBooksService;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -46,6 +49,11 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
         }
 
         return booksMapper.selectPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<BookSelectionsDTO> getBookSelections(Page<Books> page, String filter) {
+        return booksMapper.selectBookSelectionsWithPagination(page, filter);
     }
 
     @Override

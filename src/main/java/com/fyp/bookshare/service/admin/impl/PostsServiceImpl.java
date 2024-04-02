@@ -40,9 +40,22 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
         return postsMapper.selectPage(page, wrapper);
     }
 
+    /**
+     * get posts for community page
+     *
+     * @param page 分页
+     * @param userId 用户id
+     * @return 帖子的DTO
+     */
     @Override
     public IPage<PostsDTO> getPostsDTO(Page<PostsDTO> page, Integer userId) {
         return postsMapper.getPostsDTO(page, userId);
+    }
+
+    @Override
+    @Transactional
+    public boolean createPost(Posts posts) {
+        return postsMapper.insert(posts) > 0;
     }
 
     @Override

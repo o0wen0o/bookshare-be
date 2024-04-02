@@ -24,4 +24,16 @@
         id, title, author, description, publisher, isbn, publication_date, page, language, img_url, rating, favourite, review
     </sql>
 
+    <select id="selectBookSelectionsWithPagination" resultType="com.fyp.bookshare.entity.dto.BookSelectionsDTO">
+        SELECT
+            id,
+            title,
+            img_url AS imgUrl
+        FROM
+            books
+        WHERE
+            title LIKE CONCAT('%', #{filter}, '%')
+        ORDER BY
+            title ASC
+    </select>
 </mapper>
