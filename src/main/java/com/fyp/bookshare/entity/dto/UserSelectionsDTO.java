@@ -5,20 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * use for book selections for create post page
- * and posts edit-add page
+ * use for user selections for posts edit-add page
  *
  * @author o0wen0o
- * @create 2024-04-01 12:25 PM
+ * @create 2024-04-03 09:35 PM
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookSelectionsDTO {
+public class UserSelectionsDTO {
 
     private Integer id;
 
-    private String title;
-
-    private String imgUrl;
+    private String username;
 }

@@ -19,4 +19,15 @@
         id, username, email, password, phone_number, is_bookshelf_visible, is_review_visible, is_contribution_visible
     </sql>
 
+    <select id="selectBookSelectionsWithPagination" resultType="com.fyp.bookshare.entity.dto.UserSelectionsDTO">
+        SELECT
+            id,
+            username
+        FROM
+            users
+        WHERE
+            username LIKE CONCAT('%', #{filter}, '%')
+        ORDER BY
+            username ASC
+    </select>
 </mapper>

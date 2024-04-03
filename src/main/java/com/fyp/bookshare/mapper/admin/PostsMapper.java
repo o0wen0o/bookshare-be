@@ -2,6 +2,7 @@ package com.fyp.bookshare.mapper.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fyp.bookshare.entity.dto.PostsDTO;
+import com.fyp.bookshare.entity.dto.PostsEditDTO;
 import com.fyp.bookshare.pojo.Posts;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,4 +18,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface PostsMapper extends BaseMapper<Posts> {
     IPage<PostsDTO> getPostsDTO(@Param("page") Page<PostsDTO> page, @Param("userId") Integer userId);
+
+    PostsEditDTO getPostById(@Param("id") Integer id);
 }

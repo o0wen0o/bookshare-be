@@ -3,8 +3,14 @@ package com.fyp.bookshare.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
+import com.fyp.bookshare.entity.dto.BookSelectionsDTO;
+import com.fyp.bookshare.entity.dto.PostsEditDTO;
+import com.fyp.bookshare.entity.dto.UserSelectionsDTO;
+import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.Posts;
+import com.fyp.bookshare.service.admin.IBooksService;
 import com.fyp.bookshare.service.admin.IPostsService;
+import com.fyp.bookshare.service.admin.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +34,12 @@ public class PostsController {
     @Resource
     IPostsService postsService;
 
+    @Resource
+    IBooksService booksService;
+
+    @Resource
+    IUsersService usersService;
+
     @GetMapping("/")
     @Operation(summary = "Get a list of posts")
     public RestBean<IPage<Posts>> getPosts(@RequestParam Map<String, String> params) {
@@ -43,13 +55,39 @@ public class PostsController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a post by its ID")
-    public RestBean<Posts> getPostById(@PathVariable Long id) {
-        Posts post = postsService.getById(id);
+    public RestBean<PostsEditDTO> getPostById(@PathVariable Integer id) {
+        PostsEditDTO post = postsService.getPostById(id);
         if (post != null) {
             return RestBean.success(post);
         } else {
             return RestBean.failure(400, "Post not found");
         }
+    }
+
+    @GetMapping("/getUserSelections")
+    @Operation(summary = "Get a list of user selections")
+    public RestBean<IPage<UserSelectionsDTO>> getUserSelections(@RequestParam Map<String, String> params) {
+        long current = Long.parseLong(params.getOrDefault("current", "1"));
+        long size = Long.parseLong(params.getOrDefault("size", "5"));
+        String filter = params.getOrDefault("filter", "");
+
+        Page<Books> page = new Page<>(current, size);
+
+        IPage<UserSelectionsDTO> bookSelectionsDTOs = usersService.getUserSelections(page, filter);
+        return RestBean.success(bookSelectionsDTOs);
+    }
+
+    @GetMapping("/getBookSelections")
+    @Operation(summary = "Get a list of book selections")
+    public RestBean<IPage<BookSelectionsDTO>> getBookSelections(@RequestParam Map<String, String> params) {
+        long current = Long.parseLong(params.getOrDefault("current", "1"));
+        long size = Long.parseLong(params.getOrDefault("size", "5"));
+        String filter = params.getOrDefault("filter", "");
+
+        Page<Books> page = new Page<>(current, size);
+
+        IPage<BookSelectionsDTO> bookSelectionsDTOs = booksService.getBookSelections(page, filter);
+        return RestBean.success(bookSelectionsDTOs);
     }
 
     @PostMapping("/create")

@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fyp.bookshare.mapper.admin.PostsMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fyp.bookshare.pojo.Posts">
-        <id column="id" property="id" />
-        <result column="content" property="content" />
-        <result column="created_date" property="createdDate" />
-        <result column="likes" property="likes" />
-        <result column="shares" property="shares" />
-        <result column="user_id" property="userId" />
-        <result column="book_id" property="bookId" />
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="likes" property="likes"/>
+        <result column="shares" property="shares"/>
+        <result column="user_id" property="userId"/>
+        <result column="book_id" property="bookId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, content, created_date, likes, shares, user_id, book_id
+        id
+        , content, created_date, likes, shares, user_id, book_id
     </sql>
 
     <select id="getPostsDTO" resultType="com.fyp.bookshare.entity.dto.PostsDTO">
+        SELECT p.id,
+               u.username,
+               u.avatar,
+               p.content,
+               p.created_date,
+               p.likes,
+               IF(pl.post_id IS NOT NULL, TRUE, FALSE) AS thumbed,
+               p.shares,
+               COALESCE(pc.commentCount, 0)            AS commentCount
+        FROM posts p
+                 JOIN
+             users u ON p.user_id = u.id
+                 LEFT JOIN
+             (SELECT post_id, COUNT(*) AS commentCount FROM post_comments GROUP BY post_id) pc ON p.id = pc.post_id
+                 LEFT JOIN
+                 (SELECT post_id FROM post_likes WHERE user_id = #{userId}) pl ON p.id = pl.post_id
+        GROUP BY p.id
+        ORDER BY p.created_date DESC
+    </select>
+
+    <select id="getPostById" resultType="com.fyp.bookshare.entity.dto.PostsEditDTO">
         SELECT
             p.id,
-            u.username,
-            u.avatar,
             p.content,
-            p.created_date,
-            p.likes,
-            IF(pl.post_id IS NOT NULL, TRUE, FALSE) AS thumbed,
-            p.shares,
-            COALESCE(pc.commentCount, 0) AS commentCount
+            p.user_id AS userId,
+            p.book_id AS bookId
         FROM
             posts p
-        JOIN
-            users u ON p.user_id = u.id
-        LEFT JOIN
-            (SELECT post_id, COUNT(*) AS commentCount FROM post_comments GROUP BY post_id) pc ON p.id = pc.post_id
-        LEFT JOIN
-            (SELECT post_id FROM post_likes WHERE user_id = #{userId}) pl ON p.id = pl.post_id
-        GROUP BY
-            p.id
-        ORDER BY
-            p.created_date DESC
+        WHERE
+            p.id = #{id}
     </select>
 </mapper>

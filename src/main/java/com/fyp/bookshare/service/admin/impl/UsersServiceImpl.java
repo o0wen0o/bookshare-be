@@ -3,6 +3,8 @@ package com.fyp.bookshare.service.admin.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.UserSelectionsDTO;
+import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.mapper.admin.UsersMapper;
 import com.fyp.bookshare.service.OssService;
@@ -50,6 +52,11 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         }
 
         return usersMapper.selectPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<UserSelectionsDTO> getUserSelections(Page<Books> page, String filter) {
+        return usersMapper.selectBookSelectionsWithPagination(page, filter);
     }
 
     @Override

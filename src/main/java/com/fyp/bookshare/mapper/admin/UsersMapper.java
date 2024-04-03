@@ -1,5 +1,9 @@
 package com.fyp.bookshare.mapper.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.UserSelectionsDTO;
+import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.Users;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -16,4 +20,5 @@ import java.util.Map;
  */
 public interface UsersMapper extends BaseMapper<Users> {
 
+    IPage<UserSelectionsDTO> selectBookSelectionsWithPagination(Page<Books> page, String filter);
 }

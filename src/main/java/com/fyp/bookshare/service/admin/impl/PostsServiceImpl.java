@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.dto.PostsDTO;
+import com.fyp.bookshare.entity.dto.PostsEditDTO;
 import com.fyp.bookshare.pojo.Posts;
 import com.fyp.bookshare.mapper.admin.PostsMapper;
 import com.fyp.bookshare.service.admin.IPostsService;
@@ -50,6 +51,11 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
     @Override
     public IPage<PostsDTO> getPostsDTO(Page<PostsDTO> page, Integer userId) {
         return postsMapper.getPostsDTO(page, userId);
+    }
+
+    @Override
+    public PostsEditDTO getPostById(Integer id) {
+        return postsMapper.getPostById(id);
     }
 
     @Override

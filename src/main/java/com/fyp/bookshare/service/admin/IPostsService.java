@@ -3,6 +3,7 @@ package com.fyp.bookshare.service.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.dto.PostsDTO;
+import com.fyp.bookshare.entity.dto.PostsEditDTO;
 import com.fyp.bookshare.pojo.Posts;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,6 +20,8 @@ public interface IPostsService extends IService<Posts> {
     IPage<Posts> getPosts(Page<Posts> page, String filter);
 
     IPage<PostsDTO> getPostsDTO(Page<PostsDTO> page, Integer userId);
+
+    PostsEditDTO getPostById(Integer id);
 
     boolean createPost(Posts posts);
 
