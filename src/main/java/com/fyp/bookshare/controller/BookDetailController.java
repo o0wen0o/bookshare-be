@@ -8,6 +8,8 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author o0wen0o
  * @create 2024-04-04 11:39 AM
@@ -25,5 +27,12 @@ public class BookDetailController {
     public RestBean<BookDetailDTO> getBookDetail(@PathVariable Integer bookId, @PathVariable Integer userId) {
         BookDetailDTO bookDetailDTO = booksService.getBookDetail(bookId, userId);
         return RestBean.success(bookDetailDTO);
+    }
+
+    @GetMapping("/getRecommendedBooks/{bookId}")
+    @Operation(summary = "Get recommended books")
+    public RestBean<List<BookDetailDTO>> getRecommendedBooks(@PathVariable Integer bookId) {
+        List<BookDetailDTO> bookDetailDTOs = booksService.getRecommendedBooks(bookId);
+        return RestBean.success(bookDetailDTOs);
     }
 }

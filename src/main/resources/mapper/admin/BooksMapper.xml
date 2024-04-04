@@ -66,4 +66,22 @@
         WHERE b.id = #{bookId}
 
     </select>
+
+    <select id="getRecommendedBooks" resultType="com.fyp.bookshare.entity.dto.BookDetailDTO">
+        SELECT DISTINCT
+            b.id,
+            b.title,
+            b.img_url AS imgUrl
+        FROM
+            books b
+        INNER JOIN
+            book_pivot_genres pg ON b.id = pg.book_id
+        WHERE
+            pg.genre_id IN (
+                SELECT genre_id
+                FROM book_pivot_genres
+                WHERE book_id = #{bookId}
+            )
+          AND b.id != #{bookId};
+    </select>
 </mapper>

@@ -8,6 +8,8 @@ import com.fyp.bookshare.pojo.Books;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * Mapper 接口
@@ -21,4 +23,6 @@ public interface BooksMapper extends BaseMapper<Books> {
     IPage<BookSelectionsDTO> selectBookSelectionsWithPagination(Page<Books> page, @Param("filter") String filter);
 
     BookDetailDTO getBookDetail(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
+
+    List<BookDetailDTO> getRecommendedBooks(@Param("bookId") Integer bookId);
 }

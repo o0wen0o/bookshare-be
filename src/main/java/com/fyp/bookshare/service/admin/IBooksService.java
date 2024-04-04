@@ -8,6 +8,8 @@ import com.fyp.bookshare.pojo.Books;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -23,6 +25,8 @@ public interface IBooksService extends IService<Books> {
     IPage<BookSelectionsDTO> getBookSelections(Page<Books> page, String filter);
 
     BookDetailDTO getBookDetail(Integer bookId, Integer userId);
+
+    List<BookDetailDTO> getRecommendedBooks(Integer bookId);
 
     boolean addBook(Books book, MultipartFile image);
 

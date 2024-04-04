@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -59,6 +61,11 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
     @Override
     public BookDetailDTO getBookDetail(Integer bookId, Integer userId) {
         return booksMapper.getBookDetail(bookId, userId);
+    }
+
+    @Override
+    public List<BookDetailDTO> getRecommendedBooks(Integer bookId) {
+        return booksMapper.getRecommendedBooks(bookId);
     }
 
     @Override
