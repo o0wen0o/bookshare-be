@@ -7,15 +7,13 @@ import com.fyp.bookshare.entity.dto.BookCommentsDTO;
 import com.fyp.bookshare.entity.dto.BookDetailDTO;
 import com.fyp.bookshare.entity.dto.BookFavouriteDTO;
 import com.fyp.bookshare.pojo.*;
-import com.fyp.bookshare.service.admin.IBookCommentLikesService;
-import com.fyp.bookshare.service.admin.IBookCommentsService;
-import com.fyp.bookshare.service.admin.IBooksService;
-import com.fyp.bookshare.service.admin.IBookshelfPivotBooksService;
+import com.fyp.bookshare.service.admin.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -40,6 +38,9 @@ public class BookDetailController {
 
     @Resource
     IBookshelfPivotBooksService bookshelfPivotBooksService;
+
+    @Resource
+    IBookRatingsService bookRatingsService;
 
     @GetMapping("/getBookDetail/{bookId}/{userId}")
     @Operation(summary = "Get book detail")
@@ -115,6 +116,15 @@ public class BookDetailController {
     @Operation(summary = "Delete book from bookshelf")
     public RestBean<Void> deleteFromBookshelf(@PathVariable Integer bookId, @PathVariable Integer userId) {
         return messageHandle(() -> bookshelfPivotBooksService.deleteFromBookshelf(bookId, userId), "Failed to unlike the book comment");
+    }
+
+    @PostMapping("/rateBook")
+    @Operation(summary = "Rate a book")
+    public RestBean<Void> rateBook(@RequestBody BookRatings bookRating) {
+        log.info("Rate book: {}", bookRating.getRating());
+        log.info("Rate book: {}", bookRating.getBookId());
+        log.info("Rate book: {}", bookRating.getUserId());
+        return messageHandle(() -> bookRatingsService.rateBook(bookRating), "Failed to rate the book");
     }
 
     /**

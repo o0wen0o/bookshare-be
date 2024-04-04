@@ -15,4 +15,9 @@
         id, rating, book_id, user_id
     </sql>
 
+    <select id="calculateAverageRating" resultType="java.lang.Double">
+        SELECT AVG(rating)
+        FROM book_ratings
+        WHERE book_id = #{bookId}
+    </select>
 </mapper>

@@ -11,6 +11,7 @@ import com.fyp.bookshare.mapper.admin.BooksMapper;
 import com.fyp.bookshare.pojo.BookCommentLikes;
 import com.fyp.bookshare.pojo.BookComments;
 import com.fyp.bookshare.pojo.Books;
+import com.fyp.bookshare.service.admin.IBookRatingsService;
 import com.fyp.bookshare.service.admin.IBooksService;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
 import jakarta.annotation.Resource;

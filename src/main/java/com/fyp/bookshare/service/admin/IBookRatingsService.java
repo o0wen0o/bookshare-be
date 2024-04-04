@@ -3,6 +3,8 @@ package com.fyp.bookshare.service.admin;
 import com.fyp.bookshare.pojo.BookRatings;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBookRatingsService extends IService<BookRatings> {
 
+    boolean rateBook(BookRatings bookRating);
+
+    Double calculateAverageRating(Integer bookId);
 }
