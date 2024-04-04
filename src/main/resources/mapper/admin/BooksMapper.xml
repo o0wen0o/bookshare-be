@@ -36,4 +36,34 @@
         ORDER BY
             title ASC
     </select>
+
+    <select id="getBookDetail" resultType="com.fyp.bookshare.entity.dto.BookDetailDTO">
+        SELECT
+            b.*,
+            (
+                SELECT GROUP_CONCAT(g.name SEPARATOR ',')
+                FROM genres g
+                INNER JOIN book_pivot_genres pg ON g.id = pg.genre_id
+                WHERE pg.book_id = b.id
+            ) AS genres,
+            IF(EXISTS(
+                SELECT 1
+                FROM bookshelf_pivot_books bb
+                INNER JOIN bookshelves bs ON bs.id = bb.bookshelf_id
+                WHERE bb.book_id = b.id AND bs.user_id = #{userId}
+            ), 1, 0) AS isFavorite,
+            (
+                SELECT COUNT(*)
+                FROM book_comments bc
+                WHERE bc.book_id = b.id
+            ) AS commentCount,
+            (
+                SELECT COUNT(*)
+                FROM book_ratings br
+                WHERE br.book_id = b.id
+            ) AS ratingCount
+        FROM books b
+        WHERE b.id = #{bookId}
+
+    </select>
 </mapper>
