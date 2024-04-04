@@ -1,12 +1,15 @@
 package com.fyp.bookshare.service.admin.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fyp.bookshare.entity.dto.BookDetailDTO;
 import com.fyp.bookshare.entity.dto.BookSelectionsDTO;
 import com.fyp.bookshare.mapper.admin.BooksMapper;
+import com.fyp.bookshare.pojo.BookCommentLikes;
+import com.fyp.bookshare.pojo.BookComments;
 import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.service.admin.IBooksService;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
@@ -33,9 +36,6 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
 
     @Resource
     private OssServiceImpl ossService;
-
-    @Resource
-    private GenresServiceImpl genresService;
 
     @Override
     public IPage<Books> getBooks(Page<Books> page, String filter) {
@@ -98,5 +98,25 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
         }
 
         return this.updateById(book);
+    }
+
+    @Override
+    @Transactional
+    public boolean incrementFavourite(Integer bookId) {
+        UpdateWrapper<Books> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", bookId)
+                .setSql("favourite = favourite + 1");
+
+        return booksMapper.update(null, updateWrapper) > 0;
+    }
+
+    @Override
+    @Transactional
+    public boolean decrementFavourite(Integer bookId) {
+        UpdateWrapper<Books> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", bookId)
+                .setSql("favourite = favourite - 1");
+
+        return booksMapper.update(null, updateWrapper) > 0;
     }
 }

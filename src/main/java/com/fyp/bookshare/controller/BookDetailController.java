@@ -5,15 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.entity.dto.BookCommentsDTO;
 import com.fyp.bookshare.entity.dto.BookDetailDTO;
-import com.fyp.bookshare.entity.dto.PostCommentsDTO;
-import com.fyp.bookshare.entity.dto.PostsDTO;
-import com.fyp.bookshare.pojo.BookCommentLikes;
-import com.fyp.bookshare.pojo.BookComments;
-import com.fyp.bookshare.pojo.PostCommentLikes;
-import com.fyp.bookshare.pojo.PostComments;
+import com.fyp.bookshare.entity.dto.BookFavouriteDTO;
+import com.fyp.bookshare.pojo.*;
 import com.fyp.bookshare.service.admin.IBookCommentLikesService;
 import com.fyp.bookshare.service.admin.IBookCommentsService;
 import com.fyp.bookshare.service.admin.IBooksService;
+import com.fyp.bookshare.service.admin.IBookshelfPivotBooksService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +37,9 @@ public class BookDetailController {
 
     @Resource
     IBookCommentLikesService bookCommentLikesService;
+
+    @Resource
+    IBookshelfPivotBooksService bookshelfPivotBooksService;
 
     @GetMapping("/getBookDetail/{bookId}/{userId}")
     @Operation(summary = "Get book detail")
@@ -100,6 +100,21 @@ public class BookDetailController {
     @Operation(summary = "Unlike a book comment")
     public RestBean<Void> unlikeBookComment(@PathVariable Integer bookCommentId, @PathVariable Integer userId) {
         return messageHandle(() -> bookCommentLikesService.unlikePostComment(bookCommentId, userId), "Failed to unlike the book comment");
+    }
+
+    @PostMapping("/addToBookshelf")
+    @Operation(summary = "Add book to bookshelf")
+    public RestBean<Void> addToBookshelf(@RequestBody BookFavouriteDTO bookFavouriteDTO) {
+        Integer bookId = bookFavouriteDTO.getBookId();
+        Integer userId = bookFavouriteDTO.getUserId();
+
+        return messageHandle(() -> bookshelfPivotBooksService.addToBookshelf(bookId, userId), "Failed to like the book comment");
+    }
+
+    @DeleteMapping("/deleteFromBookshelf/{bookId}/{userId}")
+    @Operation(summary = "Delete book from bookshelf")
+    public RestBean<Void> deleteFromBookshelf(@PathVariable Integer bookId, @PathVariable Integer userId) {
+        return messageHandle(() -> bookshelfPivotBooksService.deleteFromBookshelf(bookId, userId), "Failed to unlike the book comment");
     }
 
     /**

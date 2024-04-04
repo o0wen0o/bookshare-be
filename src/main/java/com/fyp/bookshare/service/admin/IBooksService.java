@@ -31,4 +31,8 @@ public interface IBooksService extends IService<Books> {
     boolean addBook(Books book, MultipartFile image);
 
     boolean updateBook(Integer id, Books book, MultipartFile image);
+
+    boolean incrementFavourite(Integer bookId);
+
+    boolean decrementFavourite(Integer bookId);
 }

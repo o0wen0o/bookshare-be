@@ -64,7 +64,6 @@
             ) AS ratingCount
         FROM books b
         WHERE b.id = #{bookId}
-
     </select>
 
     <select id="getRecommendedBooks" resultType="com.fyp.bookshare.entity.dto.BookDetailDTO">

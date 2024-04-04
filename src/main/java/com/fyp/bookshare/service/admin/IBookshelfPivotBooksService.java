@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBookshelfPivotBooksService extends IService<BookshelfPivotBooks> {
 
+    boolean addToBookshelf(Integer bookId, Integer userId);
+
+    boolean deleteFromBookshelf(Integer bookId, Integer userId);
 }
