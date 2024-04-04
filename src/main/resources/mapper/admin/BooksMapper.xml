@@ -51,7 +51,7 @@
                 FROM bookshelf_pivot_books bb
                 INNER JOIN bookshelves bs ON bs.id = bb.bookshelf_id
                 WHERE bb.book_id = b.id AND bs.user_id = #{userId}
-            ), 1, 0) AS isFavorite,
+            ), 1, 0) AS isFavourite,
             (
                 SELECT COUNT(*)
                 FROM book_comments bc

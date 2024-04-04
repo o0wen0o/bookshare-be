@@ -19,7 +19,7 @@ public class BookDetailDTO extends Books {
 
     private String genres;
 
-    private Boolean isFavorite;
+    private Boolean isFavourite;
 
     private Integer commentCount;
 
