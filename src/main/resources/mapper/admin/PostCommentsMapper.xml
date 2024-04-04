@@ -29,10 +29,11 @@
             IF(pcl.post_comment_id IS NOT NULL, TRUE, FALSE) AS thumbed
         FROM
             post_comments pc
-                JOIN
-            users u ON pc.user_id = u.id
-                LEFT JOIN
-                (SELECT post_comment_id FROM post_comment_likes WHERE user_id = #{userId}) pcl ON pc.id = pcl.post_comment_id
+            JOIN users u ON pc.user_id = u.id
+            LEFT JOIN (
+                SELECT post_comment_id
+                FROM post_comment_likes
+                WHERE user_id = #{userId}) pcl ON pc.id = pcl.post_comment_id
         WHERE
             pc.post_id = #{postId}
         GROUP BY

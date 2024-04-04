@@ -18,4 +18,51 @@
         id, parent_id, text, created_date, likes, user_id, book_id
     </sql>
 
+    <select id="getCommentsDTO" resultType="com.fyp.bookshare.entity.dto.BookCommentsDTO">
+        SELECT bc.id,
+               u.username,
+               u.avatar,
+               bc.text,
+               bc.created_date,
+               bc.likes,
+               IF(bcl.book_comment_id IS NOT NULL, TRUE, FALSE) AS thumbed,
+               COALESCE(bc_reply.replyCount, 0) AS replyCount
+        FROM book_comments bc
+            JOIN users u ON bc.user_id = u.id
+            LEFT JOIN (
+                SELECT book_comment_id
+                FROM book_comment_likes
+                WHERE user_id = #{userId}) bcl ON bc.id = bcl.book_comment_id
+            LEFT JOIN (
+                SELECT parent_id, COUNT(*) AS replyCount
+                FROM book_comments
+                GROUP BY parent_id) bc_reply ON bc.id = bc_reply.parent_id
+        WHERE bc.book_id = #{bookId} AND bc.parent_id = 0
+        GROUP BY bc.id
+        ORDER BY bc.created_date DESC
+    </select>
+
+    <select id="getCommentReplies" resultType="com.fyp.bookshare.entity.dto.BookCommentsDTO">
+        SELECT
+            bc.id AS id,
+            u.username AS username,
+            u.avatar AS avatar,
+            bc.text AS text,
+            bc.created_date AS createdDate,
+            bc.likes AS likes,
+            IF(bcl.book_comment_id IS NOT NULL, TRUE, FALSE) AS thumbed
+        FROM
+            book_comments bc
+            JOIN users u ON bc.user_id = u.id
+            LEFT JOIN (
+                SELECT book_comment_id
+                FROM book_comment_likes
+                WHERE user_id = #{userId}) bcl ON bc.id = bcl.book_comment_id
+        WHERE
+            bc.parent_id = #{bookCommentId}
+        GROUP BY
+            bc.id, u.username, u.avatar, bc.text, bc.created_date
+        ORDER BY
+            bc.created_date ASC
+    </select>
 </mapper>

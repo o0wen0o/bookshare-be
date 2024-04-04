@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBookCommentLikesService extends IService<BookCommentLikes> {
 
+    boolean likePostComment(Integer bookCommentId, Integer userId);
+
+    boolean unlikePostComment(Integer bookCommentId, Integer userId);
 }

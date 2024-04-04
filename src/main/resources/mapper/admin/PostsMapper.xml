@@ -27,27 +27,27 @@
                p.likes,
                IF(pl.post_id IS NOT NULL, TRUE, FALSE) AS thumbed,
                p.shares,
-               COALESCE(pc.commentCount, 0)            AS commentCount
+               COALESCE(pc.commentCount, 0) AS commentCount
         FROM posts p
-                 JOIN
-             users u ON p.user_id = u.id
-                 LEFT JOIN
-             (SELECT post_id, COUNT(*) AS commentCount FROM post_comments GROUP BY post_id) pc ON p.id = pc.post_id
-                 LEFT JOIN
-                 (SELECT post_id FROM post_likes WHERE user_id = #{userId}) pl ON p.id = pl.post_id
+             JOIN users u ON p.user_id = u.id
+             LEFT JOIN (
+                SELECT post_id
+                FROM post_likes
+                WHERE user_id = #{userId}) pl ON p.id = pl.post_id
+             LEFT JOIN (
+                SELECT post_id, COUNT(*) AS commentCount
+                FROM post_comments
+                GROUP BY post_id) pc ON p.id = pc.post_id
         GROUP BY p.id
         ORDER BY p.created_date DESC
     </select>
 
     <select id="getPostById" resultType="com.fyp.bookshare.entity.dto.PostsEditDTO">
-        SELECT
-            p.id,
-            p.content,
-            p.user_id AS userId,
-            p.book_id AS bookId
-        FROM
-            posts p
-        WHERE
-            p.id = #{id}
+        SELECT p.id,
+               p.content,
+               p.user_id AS userId,
+               p.book_id AS bookId
+        FROM posts p
+        WHERE p.id = #{id}
     </select>
 </mapper>

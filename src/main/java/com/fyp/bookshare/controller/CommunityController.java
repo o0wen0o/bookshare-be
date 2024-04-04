@@ -91,7 +91,6 @@ public class CommunityController {
                 RestBean.failure(400, "Failed to create the post comment");
     }
 
-
     @PostMapping("/likePost")
     @Operation(summary = "Like a post")
     public RestBean<Void> likePost(@RequestBody PostLikes postLikes) {
