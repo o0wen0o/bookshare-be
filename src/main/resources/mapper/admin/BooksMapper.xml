@@ -55,13 +55,18 @@
             (
                 SELECT COUNT(*)
                 FROM book_comments bc
-                WHERE bc.book_id = b.id
+                WHERE bc.book_id = b.id AND bc.parent_id = 0
             ) AS commentCount,
             (
                 SELECT COUNT(*)
                 FROM book_ratings br
                 WHERE br.book_id = b.id
-            ) AS ratingCount
+            ) AS ratingCount,
+            (
+                SELECT br.rating
+                FROM book_ratings br
+                WHERE br.book_id = b.id AND br.user_id = #{userId}
+            ) AS currentRating
         FROM books b
         WHERE b.id = #{bookId}
     </select>
