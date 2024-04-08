@@ -78,8 +78,8 @@ public class CommunityController {
 
     @PostMapping("/createPost")
     @Operation(summary = "Create a post")
-    public RestBean<Void> createPost(@RequestBody Posts posts) {
-        return messageHandle(() -> postsService.createPost(posts), "Failed to create the post");
+    public RestBean<Void> createPost(@RequestBody Posts post) {
+        return messageHandle(() -> postsService.createPost(post), "Failed to create the post");
     }
 
     @PostMapping("/createPostComment")

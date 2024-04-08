@@ -16,4 +16,31 @@
         id, text, created_date, user_id, book_id
     </sql>
 
+    <select id="getBookReviewsByUserId" resultType="com.fyp.bookshare.entity.dto.BookReviewDTO">
+        SELECT
+            br.id,
+            b.title,
+            b.img_url AS imgUrl,
+            br.text,
+            br.updated_date AS updatedDate,
+            br.created_date AS createdDate
+        FROM
+            book_reviews AS br
+            JOIN books AS b ON br.book_id = b.id
+        WHERE
+            br.user_id = #{userId}
+    </select>
+
+    <select id="getBookReviewById" resultType="com.fyp.bookshare.entity.dto.BookReviewDTO">
+        SELECT
+            br.id,
+            b.title,
+            br.text,
+            br.book_id AS bookId
+        FROM
+            book_reviews AS br
+            JOIN books AS b ON br.book_id = b.id
+        WHERE
+            br.id = #{id}
+    </select>
 </mapper>

@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -49,6 +50,7 @@ public class BookSubmissionsServiceImpl extends ServiceImpl<BookSubmissionsMappe
     }
 
     @Override
+    @Transactional
     public boolean addBookSubmission(BookSubmissions bookSubmission, MultipartFile image) {
         // Save the bookSubmission without the image first to generate the book ID
         bookSubmission.setStatus("Pending");

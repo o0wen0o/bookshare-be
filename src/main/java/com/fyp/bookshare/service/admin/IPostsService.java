@@ -21,7 +21,7 @@ public interface IPostsService extends IService<Posts> {
 
     IPage<PostsDTO> getPostsDTO(Page<PostsDTO> page, Integer userId);
 
-    boolean createPost(Posts posts);
+    boolean createPost(Posts post);
 
     boolean incrementLikes(Integer postId);
 

@@ -55,8 +55,8 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
 
     @Override
     @Transactional
-    public boolean createPost(Posts posts) {
-        return postsMapper.insert(posts) > 0;
+    public boolean createPost(Posts post) {
+        return postsMapper.insert(post) > 0;
     }
 
     @Override
