@@ -14,4 +14,23 @@
         id, bookshelf_name, user_id
     </sql>
 
+    <select id="getFavouriteBooks" resultType="com.fyp.bookshare.pojo.Books">
+        SELECT
+            b.id,
+            b.title,
+            b.author,
+            b.publication_date AS publicationDate,
+            b.img_url AS imgUrl,
+            b.rating,
+            b.favourite,
+            b.review
+        FROM
+            bookshelves bs
+            JOIN bookshelf_pivot_books bp ON bs.id = bp.bookshelf_id
+            JOIN books b ON bp.book_id = b.id
+        WHERE
+            bs.user_id = #{userId}
+        GROUP BY
+            b.id
+    </select>
 </mapper>

@@ -18,6 +18,4 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface PostsMapper extends BaseMapper<Posts> {
     IPage<PostsDTO> getPostsDTO(@Param("page") Page<PostsDTO> page, @Param("userId") Integer userId);
-
-    PostsEditDTO getPostById(@Param("id") Integer id);
 }

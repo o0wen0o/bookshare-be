@@ -54,11 +54,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsMapper, Posts> implements
     }
 
     @Override
-    public PostsEditDTO getPostById(Integer id) {
-        return postsMapper.getPostById(id);
-    }
-
-    @Override
     @Transactional
     public boolean createPost(Posts posts) {
         return postsMapper.insert(posts) > 0;

@@ -11,8 +11,7 @@ import java.time.LocalDate;
 import com.fyp.bookshare.entity.BaseData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -22,8 +21,9 @@ import lombok.Setter;
  * @author o0wen0o
  * @since 2024-02-28
  */
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("books")
 @ApiModel(value = "Books对象", description = "")
 public class Books implements Serializable, BaseData {

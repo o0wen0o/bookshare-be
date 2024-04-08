@@ -55,8 +55,8 @@ public class PostsController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a post by its ID")
-    public RestBean<PostsEditDTO> getPostById(@PathVariable Integer id) {
-        PostsEditDTO post = postsService.getPostById(id);
+    public RestBean<Posts> getPostById(@PathVariable Integer id) {
+        Posts post = postsService.getById(id);
         if (post != null) {
             return RestBean.success(post);
         } else {
