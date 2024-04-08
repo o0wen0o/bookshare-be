@@ -8,11 +8,14 @@ import com.fyp.bookshare.mapper.admin.GenresMapper;
 import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.admin.IGenresService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author o0wen0o
@@ -20,6 +23,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GenresServiceImpl extends ServiceImpl<GenresMapper, Genres> implements IGenresService {
+
+    @Resource
+    GenresMapper genresMapper;
 
     @Override
     public IPage<Genres> getGenres(Page<Genres> page, String filter) {
@@ -29,6 +35,6 @@ public class GenresServiceImpl extends ServiceImpl<GenresMapper, Genres> impleme
             wrapper.like("name", filter);
         }
 
-        return this.baseMapper.selectPage(page, wrapper);
+        return genresMapper.selectPage(page, wrapper);
     }
 }
