@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.pojo.BookSubmissions;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -16,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IBookSubmissionsService extends IService<BookSubmissions> {
 
     IPage<BookSubmissions> getBookSubmissions(Page<BookSubmissions> page, String filter);
+
+    boolean addBookSubmission(BookSubmissions bookSubmission, MultipartFile image);
 }
