@@ -16,4 +16,16 @@
         id, donation_amount, contribution_date, user_id, fundraising_project_id
     </sql>
 
+    <select id="getDonationsByUserId" resultType="com.fyp.bookshare.entity.dto.DonationDTO">
+        SELECT
+            d.id,
+            d.donation_amount,
+            d.contribution_date,
+            fp.project_name AS fundraising_project_name
+        FROM
+            donations AS d
+                JOIN fundraising_projects AS fp ON d.fundraising_project_id = fp.id
+        WHERE
+            d.user_id = #{userId}
+    </select>
 </mapper>

@@ -3,11 +3,13 @@ package com.fyp.bookshare.service.admin.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.DonationDTO;
 import com.fyp.bookshare.pojo.Donations;
 import com.fyp.bookshare.mapper.admin.DonationsMapper;
 import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.admin.IDonationsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,6 +23,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class DonationsServiceImpl extends ServiceImpl<DonationsMapper, Donations> implements IDonationsService {
 
+    @Resource
+    DonationsMapper donationsMapper;
+
     @Override
     public IPage<Donations> getDonations(Page<Donations> page, String filter) {
         QueryWrapper<Donations> wrapper = new QueryWrapper<>();
@@ -31,6 +36,11 @@ public class DonationsServiceImpl extends ServiceImpl<DonationsMapper, Donations
                     .or().like("fundraising_project_id", filter);
         }
 
-        return this.baseMapper.selectPage(page, wrapper);
+        return donationsMapper.selectPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<DonationDTO> getDonationsByUserId(Page<DonationDTO> page, Integer userId) {
+        return donationsMapper.getDonationsByUserId(page, userId);
     }
 }

@@ -2,6 +2,7 @@ package com.fyp.bookshare.service.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.DonationDTO;
 import com.fyp.bookshare.pojo.Donations;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IDonationsService extends IService<Donations> {
 
     IPage<Donations> getDonations(Page<Donations> page, String filter);
+
+    IPage<DonationDTO> getDonationsByUserId(Page<DonationDTO> page, Integer userId);
 }

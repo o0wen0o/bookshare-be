@@ -1,5 +1,8 @@
 package com.fyp.bookshare.mapper.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.DonationDTO;
 import com.fyp.bookshare.pojo.Donations;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface DonationsMapper extends BaseMapper<Donations> {
 
+    IPage<DonationDTO> getDonationsByUserId(Page<DonationDTO> page, Integer userId);
 }
