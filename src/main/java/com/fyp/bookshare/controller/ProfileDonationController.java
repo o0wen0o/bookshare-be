@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.entity.dto.DonationDTO;
-import com.fyp.bookshare.pojo.Books;
-import com.fyp.bookshare.pojo.Donations;
 import com.fyp.bookshare.service.admin.IDonationsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -22,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/profile-donation")
-public class ProfileDonation {
+public class ProfileDonationController {
 
     @Resource
     IDonationsService donationsService;

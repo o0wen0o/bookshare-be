@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
@@ -20,7 +19,7 @@ import java.util.function.BooleanSupplier;
  */
 @RestController
 @RequestMapping("/api/profile-bookshelf")
-public class ProfileBookshelf {
+public class ProfileBookshelfController {
 
     @Resource
     IBookshelvesService bookshelvesService;

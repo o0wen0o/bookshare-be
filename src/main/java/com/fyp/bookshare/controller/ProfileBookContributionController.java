@@ -19,7 +19,7 @@ import java.util.function.BooleanSupplier;
  */
 @RestController
 @RequestMapping("/api/profile-book-contribution")
-public class ProfileBookContribution {
+public class ProfileBookContributionController {
 
     @Resource
     IBookSubmissionsService bookSubmissionsService;

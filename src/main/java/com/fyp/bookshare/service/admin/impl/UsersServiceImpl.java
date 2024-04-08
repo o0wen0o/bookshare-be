@@ -90,8 +90,6 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
             throw new IllegalArgumentException("User not found");
         }
 
-        user.setId(id);
-
         // Check if a new password is provided
         boolean passwordNotEmpty = user.getPassword() != null && !user.getPassword().isEmpty();
         if (passwordNotEmpty) {

@@ -22,7 +22,7 @@ import java.util.function.BooleanSupplier;
  */
 @RestController
 @RequestMapping("/api/profile-book-review")
-public class ProfileBookReview {
+public class ProfileBookReviewController {
 
     @Resource
     IBookReviewsService bookReviewsService;

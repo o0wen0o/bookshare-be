@@ -20,7 +20,7 @@ import java.util.function.BooleanSupplier;
  */
 @RestController
 @RequestMapping("/api/profile-favourite-genre")
-public class ProfileFavouriteGenre {
+public class ProfileFavouriteGenreController {
 
     @Resource
     IGenresService genresService;
