@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.entity.dto.UserDTO;
+import com.fyp.bookshare.pojo.UserPivotRoles;
 import com.fyp.bookshare.pojo.Users;
+import com.fyp.bookshare.service.admin.IUserPivotRolesService;
 import com.fyp.bookshare.service.admin.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -35,6 +38,9 @@ public class UsersController {
     @Resource
     IUsersService usersService;
 
+    @Resource
+    IUserPivotRolesService userPivotRolesService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -53,10 +59,15 @@ public class UsersController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a user by its ID")
-    public RestBean<Users> getUserById(@PathVariable Long id) {
+    public RestBean<UserDTO> getUserById(@PathVariable Integer id) {
         Users user = usersService.getById(id);
         user.setPassword(null);
-        return RestBean.success(user);
+        UserDTO userDTO = user.asViewObject(UserDTO.class);
+
+        List<UserPivotRoles> userPivotRoles = userPivotRolesService.getUserRoles(id);
+        userDTO.setUserPivotRoles(userPivotRoles);
+
+        return RestBean.success(userDTO);
     }
 
     @PostMapping("/create")
@@ -70,7 +81,9 @@ public class UsersController {
     @Operation(summary = "Update an existing user")
     public RestBean<Void> updateUser(@PathVariable Integer id, @ModelAttribute UserDTO userDTO, MultipartFile image) {
         Users user = userDTO.asViewObject(Users.class);
-        return messageHandle(() -> usersService.updateUser(id, user, image), "Failed to update the user");
+        List<Integer> roleIds = userDTO.getRoleIds();
+
+        return messageHandle(() -> usersService.updateUser(id, user, roleIds, image), "Failed to update the user");
     }
 
     @DeleteMapping("/delete/{ids}")

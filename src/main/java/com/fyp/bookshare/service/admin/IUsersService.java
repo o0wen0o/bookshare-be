@@ -8,7 +8,7 @@ import com.fyp.bookshare.pojo.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -24,7 +24,7 @@ public interface IUsersService extends IService<Users> {
 
     IPage<UserSelectionsDTO> getUserSelections(Page<Books> page, String filter);
 
-    boolean updateUser(Integer id, Users use, MultipartFile image);
+    boolean updateUser(Integer id, Users user, List<Integer> roleIds, MultipartFile image);
 
     boolean addUser(Users user, MultipartFile image);
 }

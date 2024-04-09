@@ -54,6 +54,18 @@ public class RolesController {
         }
     }
 
+    /**
+     * use for users edit-add to get role selections
+     *
+     * @return
+     */
+    @GetMapping("/getAllRoles")
+    @Operation(summary = "Get all roles")
+    public RestBean<List<Roles>> getAllRoles() {
+        List<Roles> roles = rolesService.list();
+        return RestBean.success(roles);
+    }
+
     @PostMapping("/create")
     @Operation(summary = "Add a new role")
     public RestBean<Void> addUser(@RequestBody Roles role) {

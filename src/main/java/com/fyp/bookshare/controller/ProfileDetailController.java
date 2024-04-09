@@ -34,7 +34,7 @@ public class ProfileDetailController {
     @Operation(summary = "Update an existing user")
     public RestBean<Void> updateUserDetail(@PathVariable Integer id, @ModelAttribute UserDTO userDTO, MultipartFile image) {
         Users user = userDTO.asViewObject(Users.class);
-        return messageHandle(() -> usersService.updateUser(id, user, image), "Failed to update the user");
+        return messageHandle(() -> usersService.updateUser(id, user, null, image), "Failed to update the user");
     }
 
     /**

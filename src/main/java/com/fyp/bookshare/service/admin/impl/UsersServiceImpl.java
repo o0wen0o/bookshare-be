@@ -7,7 +7,7 @@ import com.fyp.bookshare.entity.dto.UserSelectionsDTO;
 import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.mapper.admin.UsersMapper;
-import com.fyp.bookshare.service.OssService;
+import com.fyp.bookshare.service.admin.IUserPivotRolesService;
 import com.fyp.bookshare.service.admin.IUsersService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +35,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Resource
     private UsersMapper usersMapper;
+
+    @Resource
+    private IUserPivotRolesService userPivotRolesService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -82,13 +87,15 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     @Transactional
-    public boolean updateUser(Integer id, Users user, MultipartFile image) {
+    public boolean updateUser(Integer id, Users user, List<Integer> roleIds, MultipartFile image) {
         // Fetch the existing user to get the current details, especially the password
         Users existingUser = this.getById(id);
         if (existingUser == null) {
             // Handle the case where the user doesn't exist
             throw new IllegalArgumentException("User not found");
         }
+
+        user.setId(id);
 
         // Check if a new password is provided
         boolean passwordNotEmpty = user.getPassword() != null && !user.getPassword().isEmpty();
@@ -105,6 +112,11 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
             String imageUrl = "users/avatar/" + ossService.generateFileName(id, image); // Generate a unique file name
             ossService.uploadImage(image, imageUrl); // Upload image to oss
             user.setAvatar(imageUrl);
+        }
+
+        // Update the user roles
+        if (roleIds != null) {
+            boolean updated = userPivotRolesService.updateUserRoles(id, roleIds);
         }
 
         // Update the user with either the new password or the existing one

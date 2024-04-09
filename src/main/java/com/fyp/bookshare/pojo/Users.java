@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fyp.bookshare.entity.BaseData;
@@ -54,7 +55,7 @@ public class Users implements Serializable, BaseData {
     private Boolean contributionVisible;
 
     @TableField("created_date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @TableField("avatar")
     private String avatar;

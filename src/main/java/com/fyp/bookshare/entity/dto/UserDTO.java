@@ -3,9 +3,12 @@ package com.fyp.bookshare.entity.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fyp.bookshare.entity.BaseData;
+import com.fyp.bookshare.pojo.UserPivotRoles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * return value for user controller
@@ -36,4 +39,8 @@ public class UserDTO implements BaseData {
     private Boolean contributionVisible;
 
     private String avatar;
+
+    private List<UserPivotRoles> userPivotRoles;
+
+    private List<Integer> roleIds;
 }

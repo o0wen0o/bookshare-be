@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
@@ -130,7 +131,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
             return "This username has been used by someone else";
 
         String password = passwordEncoder.encode(info.getPassword());
-        Users user = new Users(null, username, email, password, null, null, null, null, new Date(), null);
+        Users user = new Users(null, username, email, password, null, null, null, null, LocalDateTime.now(), null);
 
         if (!this.save(user)) {
             return "Registration failed, please contact administrator";

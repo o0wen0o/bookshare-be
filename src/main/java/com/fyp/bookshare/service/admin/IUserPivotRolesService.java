@@ -3,6 +3,8 @@ package com.fyp.bookshare.service.admin;
 import com.fyp.bookshare.pojo.UserPivotRoles;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserPivotRolesService extends IService<UserPivotRoles> {
 
+    List<UserPivotRoles> getUserRoles(Integer userId);
+
+    boolean updateUserRoles(Integer id, List<Integer> roleIds);
 }
