@@ -5,12 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.entity.dto.DonationDTO;
 import com.fyp.bookshare.service.admin.IDonationsService;
+import com.fyp.bookshare.service.admin.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -25,6 +23,9 @@ public class ProfileDonationController {
     @Resource
     IDonationsService donationsService;
 
+    @Resource
+    IUsersService usersService;
+
     @GetMapping("/getDonationsByUserId")
     @Operation(summary = "Get a list of donations by user id")
     public RestBean<IPage<DonationDTO>> getDonationsByUserId(@RequestParam Map<String, String> params) {
@@ -37,4 +38,9 @@ public class ProfileDonationController {
         return RestBean.success(donations);
     }
 
+    @GetMapping("/checkDonationVisible/{userId}")
+    @Operation(summary = "Check if the donations is visible")
+    public RestBean<Boolean> checkDonationVisible(@PathVariable Integer userId) {
+        return RestBean.success(usersService.checkDonationVisible(userId));
+    }
 }

@@ -9,6 +9,7 @@ import com.fyp.bookshare.pojo.BookReviews;
 import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.service.admin.IBookReviewsService;
 import com.fyp.bookshare.service.admin.IBooksService;
+import com.fyp.bookshare.service.admin.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class ProfileBookReviewController {
 
     @Resource
     IBooksService booksService;
+
+    @Resource
+    IUsersService usersService;
 
     @GetMapping("/getBookReviewsByUserId")
     @Operation(summary = "Get a list of book review by user id")
@@ -79,6 +83,12 @@ public class ProfileBookReviewController {
     @Operation(summary = "Delete book review by id")
     public RestBean<Void> deleteBookReview(@PathVariable Integer bookReviewId) {
         return messageHandle(() -> bookReviewsService.removeById(bookReviewId), "Failed to delete the book review");
+    }
+
+    @GetMapping("/checkBookReviewVisible/{userId}")
+    @Operation(summary = "Check if the book review is visible")
+    public RestBean<Boolean> checkBookReviewVisible(@PathVariable Integer userId) {
+        return RestBean.success(usersService.checkBookReviewVisible(userId));
     }
 
     /**

@@ -6,6 +6,7 @@ import com.fyp.bookshare.entity.RestBean;
 import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.service.admin.IBookshelfPivotBooksService;
 import com.fyp.bookshare.service.admin.IBookshelvesService;
+import com.fyp.bookshare.service.admin.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public class ProfileBookshelfController {
     @Resource
     IBookshelfPivotBooksService bookshelfPivotBooksService;
 
+    @Resource
+    IUsersService usersService;
+
     @GetMapping("/getFavouriteBooks")
     @Operation(summary = "Get a list of favourite books")
     public RestBean<IPage<Books>> getFavouriteBooks(@RequestParam Map<String, String> params) {
@@ -43,6 +47,12 @@ public class ProfileBookshelfController {
     @Operation(summary = "Delete book from bookshelf")
     public RestBean<Void> deleteFromBookshelf(@PathVariable Integer bookId, @PathVariable Integer userId) {
         return messageHandle(() -> bookshelfPivotBooksService.deleteFromBookshelf(bookId, userId), "Failed to unlike the book comment");
+    }
+
+    @GetMapping("/checkBookshelfVisible/{userId}")
+    @Operation(summary = "Check if the bookshelf is visible")
+    public RestBean<Boolean> checkBookshelfVisible(@PathVariable Integer userId) {
+        return RestBean.success(usersService.checkBookshelfVisible(userId));
     }
 
     /**

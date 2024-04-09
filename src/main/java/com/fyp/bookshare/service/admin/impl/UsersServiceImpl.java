@@ -122,4 +122,31 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         // Update the user with either the new password or the existing one
         return this.updateById(user);
     }
+
+    @Override
+    public Boolean checkBookshelfVisible(Integer userId) {
+        Users user = this.getById(userId);
+        if (user != null) {
+            return user.getBookshelfVisible();
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean checkBookReviewVisible(Integer userId) {
+        Users user = this.getById(userId);
+        if (user != null) {
+            return user.getReviewVisible();
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean checkDonationVisible(Integer userId) {
+        Users user = this.getById(userId);
+        if (user != null) {
+            return user.getContributionVisible();
+        }
+        return false;
+    }
 }

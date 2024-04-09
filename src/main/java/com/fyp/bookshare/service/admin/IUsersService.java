@@ -27,4 +27,10 @@ public interface IUsersService extends IService<Users> {
     boolean updateUser(Integer id, Users user, List<Integer> roleIds, MultipartFile image);
 
     boolean addUser(Users user, MultipartFile image);
+
+    Boolean checkBookshelfVisible(Integer userId);
+
+    Boolean checkBookReviewVisible(Integer userId);
+
+    Boolean checkDonationVisible(Integer userId);
 }
