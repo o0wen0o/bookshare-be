@@ -20,6 +20,7 @@
 
     <select id="getCommentsDTO" resultType="com.fyp.bookshare.entity.dto.BookCommentsDTO">
         SELECT bc.id,
+               bc.user_id,
                u.username,
                u.avatar,
                bc.text,
@@ -45,6 +46,7 @@
     <select id="getCommentReplies" resultType="com.fyp.bookshare.entity.dto.BookCommentsDTO">
         SELECT
             bc.id AS id,
+            bc.user_id,
             u.username AS username,
             u.avatar AS avatar,
             bc.text AS text,
