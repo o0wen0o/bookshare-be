@@ -21,11 +21,12 @@
     <select id="getPostCommentsDTO" resultType="com.fyp.bookshare.entity.dto.PostCommentsDTO">
         SELECT
             pc.id AS id,
-            u.username AS username,
-            u.avatar AS avatar,
-            pc.text AS text,
+            pc.user_id,
+            u.username,
+            u.avatar,
+            pc.text,
             pc.created_date AS createdDate,
-            pc.likes AS likes,
+            pc.likes,
             IF(pcl.post_comment_id IS NOT NULL, TRUE, FALSE) AS thumbed
         FROM
             post_comments pc

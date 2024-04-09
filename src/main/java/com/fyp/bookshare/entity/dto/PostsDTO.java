@@ -23,6 +23,8 @@ public class PostsDTO {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private Integer userId; // who created this post
+
     private String username;
 
     private String avatar;

@@ -20,6 +20,7 @@
 
     <select id="getPostsDTO" resultType="com.fyp.bookshare.entity.dto.PostsDTO">
         SELECT p.id,
+               p.user_id,
                u.username,
                u.avatar,
                p.content,
