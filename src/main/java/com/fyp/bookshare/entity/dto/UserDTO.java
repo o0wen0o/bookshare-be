@@ -40,9 +40,9 @@ public class UserDTO implements BaseData {
 
     private String avatar;
 
-    // store old user roles
+    // old user roles
     private List<UserPivotRoles> userPivotRoles;
 
-    // store new user roles
+    // new user roles
     private List<Integer> roleIds;
 }

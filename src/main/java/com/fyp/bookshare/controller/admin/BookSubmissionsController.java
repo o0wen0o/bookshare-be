@@ -71,6 +71,18 @@ public class BookSubmissionsController {
         return messageHandle(() -> bookSubmissionsService.removeByIds(ids), "Failed to delete the bookSubmission");
     }
 
+    @PostMapping("/acceptBookSubmission")
+    @Operation(summary = "Accept a bookSubmission")
+    public RestBean<Void> acceptBookSubmission(@RequestBody Integer bookSubmissionId) {
+        return messageHandle(() -> bookSubmissionsService.acceptBookSubmission(bookSubmissionId), "Failed to accept the bookSubmission");
+    }
+
+    @PostMapping("/rejectBookSubmission")
+    @Operation(summary = "Reject a bookSubmission")
+    public RestBean<Void> rejectBookSubmission(@RequestBody Integer bookSubmissionId) {
+        return messageHandle(() -> bookSubmissionsService.rejectBookSubmission(bookSubmissionId), "Failed to reject the bookSubmission");
+    }
+
     /**
      * 针对于返回值为String作为错误信息的方法进行统一处理
      *

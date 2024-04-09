@@ -18,5 +18,9 @@ public interface IBookSubmissionsService extends IService<BookSubmissions> {
 
     IPage<BookSubmissions> getBookSubmissions(Page<BookSubmissions> page, String filter);
 
-    boolean addBookSubmission(BookSubmissions bookSubmission, MultipartFile image);
+    Boolean addBookSubmission(BookSubmissions bookSubmission, MultipartFile image);
+
+    Boolean acceptBookSubmission(Integer bookSubmissionId);
+
+    Boolean rejectBookSubmission(Integer bookSubmissionId);
 }
