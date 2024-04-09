@@ -60,8 +60,8 @@ spring:
     verify:
       mail-limit: 60
     flow:
-      period: 3
-      limit: 10
+      period: 1
+      limit: 8
       block: 30
     cors:
       origin: '*'
