@@ -13,7 +13,7 @@
         <result column="amount_raised" property="amountRaised" />
         <result column="donation_count" property="donationCount" />
         <result column="status" property="status" />
-        <result column="organizer_id" property="organizerId" />
+        <result column="fundraising_organizer_id" property="fundraisingOrganizerId" />
         <result column="updated_date" property="updatedDate" />
         <result column="created_date" property="createdDate" />
         <result column="img_url" property="imgUrl" />
@@ -21,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, project_name, description, start_date, end_date, goal_amount, amount_raised, donation_count, status, organizer_id, updated_date, created_date, img_url
+        id, project_name, description, start_date, end_date, goal_amount, amount_raised, donation_count, status, fundraising_organizer_id, updated_date, created_date, img_url
     </sql>
 
     <select id="selectFundraisingProjectSelectionsWithPagination" resultType="com.fyp.bookshare.entity.dto.FundraisingProjectSelectionsDTO">

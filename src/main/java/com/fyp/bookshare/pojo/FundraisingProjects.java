@@ -56,8 +56,8 @@ public class FundraisingProjects implements Serializable {
     @TableField("status")
     private String status;
 
-    @TableField("organizer_id")
-    private Integer organizerId;
+    @TableField("fundraising_organizer_id")
+    private Integer fundraisingOrganizerId;
 
     @TableField("updated_date")
     private LocalDate updatedDate;
