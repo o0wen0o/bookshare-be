@@ -4,17 +4,18 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author o0wen0o
@@ -46,8 +47,11 @@ public class FundraisingProjects implements Serializable {
     @TableField("goal_amount")
     private BigDecimal goalAmount;
 
-    @TableField("current_amount")
-    private BigDecimal currentAmount;
+    @TableField("amount_raised")
+    private BigDecimal amountRaised;
+
+    @TableField("donation_count")
+    private String donationCount;
 
     @TableField("status")
     private String status;
@@ -55,6 +59,12 @@ public class FundraisingProjects implements Serializable {
     @TableField("organizer_id")
     private Integer organizerId;
 
+    @TableField("updated_date")
+    private LocalDate updatedDate;
+
     @TableField("created_date")
     private LocalDate createdDate;
+
+    @TableField("img_url")
+    private String imgUrl;
 }
