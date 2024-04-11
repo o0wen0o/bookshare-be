@@ -39,10 +39,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Resource
     private IUserPivotRolesService userPivotRolesService;
 
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+    @Resource
     OssServiceImpl ossService;
 
     @Override
@@ -61,7 +61,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public IPage<UserSelectionsDTO> getUserSelections(Page<Books> page, String filter) {
-        return usersMapper.selectBookSelectionsWithPagination(page, filter);
+        return usersMapper.selectUserSelectionsWithPagination(page, filter);
     }
 
     @Override

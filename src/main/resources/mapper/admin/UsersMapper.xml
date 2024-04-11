@@ -19,7 +19,7 @@
         id, username, email, password, phone_number, is_bookshelf_visible, is_review_visible, is_contribution_visible
     </sql>
 
-    <select id="selectBookSelectionsWithPagination" resultType="com.fyp.bookshare.entity.dto.UserSelectionsDTO">
+    <select id="selectUserSelectionsWithPagination" resultType="com.fyp.bookshare.entity.dto.UserSelectionsDTO">
         SELECT
             id,
             username

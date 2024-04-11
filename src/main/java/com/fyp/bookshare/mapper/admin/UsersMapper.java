@@ -20,5 +20,5 @@ import java.util.Map;
  */
 public interface UsersMapper extends BaseMapper<Users> {
 
-    IPage<UserSelectionsDTO> selectBookSelectionsWithPagination(Page<Books> page, String filter);
+    IPage<UserSelectionsDTO> selectUserSelectionsWithPagination(Page<Books> page, String filter);
 }

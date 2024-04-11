@@ -3,11 +3,15 @@ package com.fyp.bookshare.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fyp.bookshare.entity.RestBean;
+import com.fyp.bookshare.entity.dto.OrganizerSelectionsDTO;
+import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.FundraisingProjects;
+import com.fyp.bookshare.service.admin.IFundraisingOrganizersService;
 import com.fyp.bookshare.service.admin.IFundraisingProjectsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +31,9 @@ public class FundraisingProjectsController {
 
     @Resource
     IFundraisingProjectsService fundraisingProjectsService;
+
+    @Resource
+    IFundraisingOrganizersService fundraisingOrganizersService;
 
     @GetMapping("/")
     @Operation(summary = "Get a list of fundraisingProjects")
@@ -52,17 +59,29 @@ public class FundraisingProjectsController {
         }
     }
 
+    @GetMapping("/getOrganizerSelections")
+    @Operation(summary = "Get a list of organizer selections")
+    public RestBean<IPage<OrganizerSelectionsDTO>> getOrganizerSelections(@RequestParam Map<String, String> params) {
+        long current = Long.parseLong(params.getOrDefault("current", "1"));
+        long size = Long.parseLong(params.getOrDefault("size", "5"));
+        String filter = params.getOrDefault("filter", "");
+
+        Page<Books> page = new Page<>(current, size);
+
+        IPage<OrganizerSelectionsDTO> bookSelectionsDTOs = fundraisingOrganizersService.getOrganizerSelections(page, filter);
+        return RestBean.success(bookSelectionsDTOs);
+    }
+
     @PostMapping("/create")
     @Operation(summary = "Add a new fundraisingProject")
-    public RestBean<Void> addFundraisingProject(@RequestBody FundraisingProjects fundraisingProject) {
-        return messageHandle(() -> fundraisingProjectsService.save(fundraisingProject), "Failed to add the fundraisingProject");
+    public RestBean<Void> addFundraisingProject(@ModelAttribute FundraisingProjects fundraisingProject, MultipartFile image) {
+        return messageHandle(() -> fundraisingProjectsService.addFundraisingProject(fundraisingProject, image), "Failed to add the fundraisingProject");
     }
 
     @PutMapping("/{id}/update")
     @Operation(summary = "Update an existing fundraisingProject")
-    public RestBean<Void> updateFundraisingProject(@PathVariable Integer id, @RequestBody FundraisingProjects fundraisingProject) {
-        fundraisingProject.setId(id);
-        return messageHandle(() -> fundraisingProjectsService.updateById(fundraisingProject), "Failed to update the fundraisingProject");
+    public RestBean<Void> updateFundraisingProject(@PathVariable Integer id, @ModelAttribute FundraisingProjects fundraisingProject, MultipartFile image) {
+        return messageHandle(() -> fundraisingProjectsService.updateFundraisingProject(id, fundraisingProject, image), "Failed to update the fundraisingProject");
     }
 
     @DeleteMapping("/delete/{ids}")
