@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 import com.fyp.bookshare.entity.BaseData;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
