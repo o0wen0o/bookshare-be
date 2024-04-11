@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="update-fundraising-projects" author="o0wen0o">
+        <addColumn tableName="fundraising_projects">
+            <column name="img_url" type="varchar(255)"/>
+            <column name="updated_date" type="date" afterColumn="organizer_id"/>
+            <column name="donation_count" type="int" afterColumn="current_amount"/>
+        </addColumn>
+
+        <renameColumn tableName="fundraising_projects"
+                      oldColumnName="current_amount"
+                      newColumnName="amount_raised"
+                      columnDataType="decimal(19,2)"/>
+
+        <modifyDataType tableName="fundraising_projects"
+                        columnName="goal_amount"
+                        newDataType="decimal(19,2)"/>
+    </changeSet>
+</databaseChangeLog>
