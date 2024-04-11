@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="update-fundraising-projects-default-value" author="o0wen0o">
+        <modifyDataType tableName="fundraising_projects" columnName="updated_date" newDataType="timestamp"/>
+
+        <addDefaultValue tableName="fundraising_projects" columnName="start_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="fundraising_projects" columnName="end_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="fundraising_projects" columnName="goal_amount" defaultValue="0"/>
+        <addDefaultValue tableName="fundraising_projects" columnName="amount_raised" defaultValue="0"/>
+        <addDefaultValue tableName="fundraising_projects" columnName="donation_count" defaultValue="0"/>
+        <addDefaultValue tableName="fundraising_projects" columnName="updated_date" defaultValueComputed="CURRENT_TIMESTAMP"/>
+    </changeSet>
+</databaseChangeLog>
