@@ -10,7 +10,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fyp.bookshare.service.impl.OssServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -44,6 +47,17 @@ public class FundraisingProjectProgressServiceImpl extends ServiceImpl<Fundraisi
     }
 
     @Override
+    public List<FundraisingProjectProgress> getFundraisingProjectProgressesByProjectId(Integer fundraisingProjectId) {
+        QueryWrapper<FundraisingProjectProgress> wrapper = new QueryWrapper<>();
+
+        wrapper.eq("fundraising_project_id", fundraisingProjectId);
+        wrapper.orderByDesc("updated_date");
+
+        return fundraisingProjectProgressMapper.selectList(wrapper);
+    }
+
+    @Override
+    @Transactional
     public Boolean addFundraisingProject(FundraisingProjectProgress fundraisingProjectProgress, MultipartFile image) {
         // Save the fundraising project without the image first to generate its ID
         boolean isSave = this.save(fundraisingProjectProgress);
@@ -60,6 +74,7 @@ public class FundraisingProjectProgressServiceImpl extends ServiceImpl<Fundraisi
     }
 
     @Override
+    @Transactional
     public Boolean updateFundraisingProject(Integer id, FundraisingProjectProgress fundraisingProjectProgress, MultipartFile image) {
         fundraisingProjectProgress.setId(id);
 

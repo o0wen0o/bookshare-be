@@ -3,6 +3,7 @@ package com.fyp.bookshare.service.admin.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.FundraisingProjectDetailDTO;
 import com.fyp.bookshare.entity.dto.FundraisingProjectSelectionsDTO;
 import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.FundraisingProjects;
@@ -53,6 +54,11 @@ public class FundraisingProjectsServiceImpl extends ServiceImpl<FundraisingProje
     @Override
     public IPage<FundraisingProjectSelectionsDTO> getFundraisingProjectSelections(Page<Books> page, String filter) {
         return fundraisingProjectsMapper.selectFundraisingProjectSelectionsWithPagination(page, filter);
+    }
+
+    @Override
+    public FundraisingProjectDetailDTO getFundraisingProjectDetail(Integer fundraisingProjectId) {
+        return fundraisingProjectsMapper.getFundraisingProjectDetail(fundraisingProjectId);
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.fyp.bookshare.pojo.FundraisingProjectProgress;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface IFundraisingProjectProgressService extends IService<FundraisingProjectProgress> {
     IPage<FundraisingProjectProgress> getFundraisingProjectProgresses(Page<FundraisingProjectProgress> page, String filter);
+
+    List<FundraisingProjectProgress> getFundraisingProjectProgressesByProjectId(Integer fundraisingProjectId);
 
     Boolean addFundraisingProject(FundraisingProjectProgress fundraisingProjectProgress, MultipartFile image);
 

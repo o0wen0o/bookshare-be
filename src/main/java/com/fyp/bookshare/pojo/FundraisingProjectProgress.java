@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -41,10 +42,10 @@ public class FundraisingProjectProgress implements Serializable {
     private String imgUrl;
 
     @TableField("updated_date")
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 
     @TableField("created_date")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @TableField("fundraising_project_id")
     private Integer fundraisingProjectId;

@@ -35,4 +35,22 @@
         ORDER BY
             project_name ASC
     </select>
+
+    <select id="getFundraisingProjectDetail" resultType="com.fyp.bookshare.entity.dto.FundraisingProjectDetailDTO">
+        SELECT
+            fp.project_name,
+            fp.description,
+            fp.start_date,
+            fp.end_date,
+            fp.goal_amount,
+            fp.amount_raised,
+            fp.donation_count,
+            fo.username,
+            fp.img_url
+        FROM
+            fundraising_projects fp
+            JOIN fundraising_organizers fo ON fp.fundraising_organizer_id = fo.id
+        WHERE
+            fp.id = #{fundraisingProjectId}
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.fyp.bookshare.service.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.FundraisingProjectDetailDTO;
 import com.fyp.bookshare.entity.dto.FundraisingProjectSelectionsDTO;
 import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.FundraisingProjects;
@@ -21,6 +22,8 @@ public interface IFundraisingProjectsService extends IService<FundraisingProject
     IPage<FundraisingProjects> getFundraisingProjects(Page<FundraisingProjects> page, String filter);
 
     IPage<FundraisingProjectSelectionsDTO> getFundraisingProjectSelections(Page<Books> page, String filter);
+
+    FundraisingProjectDetailDTO getFundraisingProjectDetail(Integer fundraisingProjectId);
 
     Boolean addFundraisingProject(FundraisingProjects fundraisingProject, MultipartFile image);
 
