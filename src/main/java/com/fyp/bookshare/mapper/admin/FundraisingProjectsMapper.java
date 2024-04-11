@@ -1,5 +1,9 @@
 package com.fyp.bookshare.mapper.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fyp.bookshare.entity.dto.FundraisingProjectSelectionsDTO;
+import com.fyp.bookshare.pojo.Books;
 import com.fyp.bookshare.pojo.FundraisingProjects;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface FundraisingProjectsMapper extends BaseMapper<FundraisingProjects> {
 
+    IPage<FundraisingProjectSelectionsDTO> selectFundraisingProjectSelectionsWithPagination(Page<Books> page, String filter);
 }

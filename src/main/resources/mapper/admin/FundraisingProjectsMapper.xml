@@ -24,4 +24,15 @@
         id, project_name, description, start_date, end_date, goal_amount, amount_raised, donation_count, status, organizer_id, updated_date, created_date, img_url
     </sql>
 
+    <select id="selectFundraisingProjectSelectionsWithPagination" resultType="com.fyp.bookshare.entity.dto.FundraisingProjectSelectionsDTO">
+        SELECT
+            id,
+            project_name
+        FROM
+            fundraising_projects
+        WHERE
+            project_name LIKE CONCAT('%', #{filter}, '%')
+        ORDER BY
+            project_name ASC
+    </select>
 </mapper>
