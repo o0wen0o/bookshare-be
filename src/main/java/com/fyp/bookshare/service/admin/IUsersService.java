@@ -24,9 +24,9 @@ public interface IUsersService extends IService<Users> {
 
     IPage<UserSelectionsDTO> getUserSelections(Page<Books> page, String filter);
 
-    boolean updateUser(Integer id, Users user, List<Integer> roleIds, MultipartFile image);
+    boolean addUser(Users user, List<Integer> roleIds, MultipartFile image);
 
-    boolean addUser(Users user, MultipartFile image);
+    boolean updateUser(Integer id, Users user, List<Integer> roleIds, MultipartFile image);
 
     Boolean checkBookshelfVisible(Integer userId);
 

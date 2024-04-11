@@ -74,7 +74,9 @@ public class UsersController {
     @Operation(summary = "Add a new user")
     public RestBean<Void> addUser(@ModelAttribute UserDTO userDTO, MultipartFile image) {
         Users user = userDTO.asViewObject(Users.class);
-        return messageHandle(() -> usersService.addUser(user, image), "Failed to add the user");
+        List<Integer> roleIds = userDTO.getRoleIds();
+
+        return messageHandle(() -> usersService.addUser(user, roleIds, image), "Failed to add the user");
     }
 
     @PutMapping("/{id}/update")

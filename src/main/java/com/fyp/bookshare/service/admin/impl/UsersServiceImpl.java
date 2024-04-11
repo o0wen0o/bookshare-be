@@ -66,7 +66,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     @Transactional
-    public boolean addUser(Users user, MultipartFile image) {
+    public boolean addUser(Users user, List<Integer> roleIds, MultipartFile image) {
         user.setPassword(passwordEncoder.encode(user.getPassword())); // Encrypt the password
 
         // Save the user without the avatar first to generate the user ID
@@ -80,6 +80,11 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
             // Update the user with the avatar URL
             user.setAvatar(imageUrl);
             return this.updateById(user);
+        }
+
+        // Update the user roles
+        if (userSaved && roleIds != null) {
+            boolean updated = userPivotRolesService.updateUserRoles(user.getId(), roleIds);
         }
 
         return userSaved;
