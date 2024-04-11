@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="seed-fundraising-project-progress-1" author="o0wen0o">
+        <insert tableName="fundraising_project_progress">
+            <column name="title" value="Kickoff Meeting Success"/>
+            <column name="description"
+                    value="We successfully held our kickoff meeting with key stakeholders, outlining the main objectives and timeline of our fundraising campaign."/>
+            <column name="fundraising_project_id" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="seed-fundraising-project-progress-2" author="o0wen0o">
+        <insert tableName="fundraising_project_progress">
+            <column name="title" value="First Milestone Reached"/>
+            <column name="description"
+                    value="Our campaign reached its first milestone two weeks ahead of schedule, securing the initial funding needed to begin our project's first phase."/>
+            <column name="fundraising_project_id" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="seed-fundraising-project-progress-3" author="o0wen0o">
+        <insert tableName="fundraising_project_progress">
+            <column name="title" value="Community Support Surges"/>
+            <column name="description"
+                    value="Local businesses and community leaders have rallied to our cause, significantly boosting our campaign's visibility and contributions."/>
+            <column name="fundraising_project_id" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="seed-fundraising-project-progress-4" author="o0wen0o">
+        <insert tableName="fundraising_project_progress">
+            <column name="title" value="Major Donation Received"/>
+            <column name="description"
+                    value="A major donation from a philanthropic organization has put us well beyond our original goal, allowing for an expansion of the project's scope."/>
+            <column name="fundraising_project_id" valueNumeric="2"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
