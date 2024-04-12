@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * 用于处理邮件发送的消息队列监听器，监听RabbitMQ是否接收信息
+ * Message queue listener used to handle email sending, monitoring whether RabbitMQ receives information
  */
 @Component
 @RabbitListener(queues = "mail")
@@ -24,20 +25,22 @@ public class MailQueueListener {
     String username;
 
     /**
-     * 处理邮件发送
+     * Handle email sending
      *
-     * @param data 邮件信息
+     * @param data email info
      */
     @RabbitHandler
     public void sendMailMessage(Map<String, Object> data) {
         String email = data.get("email").toString();
         Integer code = (Integer) data.get("code");
         SimpleMailMessage message = switch (data.get("type").toString()) {
-            case "register" -> createMessage("欢迎注册我们的网站",
-                    "您的邮件注册验证码为: " + code + "，有效时间3分钟，为了保障您的账户安全，请勿向他人泄露验证码信息。",
+            case "register" -> createMessage("Welcome to register our website",
+                    "Your email registration verification code is:" + code +
+                            ", which is valid for 3 minutes. To protect the security of your account, please do not disclose the verification code information to others.",
                     email);
-            case "reset" -> createMessage("您的密码重置邮件",
-                    "你好，您正在执行重置密码操作，验证码: " + code + "，有效时间3分钟，如非本人操作，请无视。",
+            case "reset" -> createMessage("Reset password email",
+                    "You are performing a password reset operation. The verification code is: " + code +
+                            ", which is valid for 3 minutes. If it is not done by yourself, please ignore it.",
                     email);
             default -> null;
         };
@@ -46,12 +49,12 @@ public class MailQueueListener {
     }
 
     /**
-     * 快速封装简单邮件消息实体
+     * Encapsulate simple email message entities
      *
-     * @param title   标题
-     * @param content 内容
-     * @param email   收件人
-     * @return 邮件实体
+     * @param title
+     * @param content
+     * @param email
+     * @return Mail entity
      */
     private SimpleMailMessage createMessage(String title, String content, String email) {
         SimpleMailMessage message = new SimpleMailMessage();

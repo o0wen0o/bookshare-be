@@ -10,6 +10,8 @@ import com.fyp.bookshare.mapper.AccountMapper;
 import com.fyp.bookshare.mapper.admin.UsersMapper;
 import com.fyp.bookshare.pojo.Users;
 import com.fyp.bookshare.service.AccountService;
+import com.fyp.bookshare.service.admin.IRolesService;
+import com.fyp.bookshare.service.admin.IUserPivotRolesService;
 import com.fyp.bookshare.utils.Const;
 import com.fyp.bookshare.utils.FlowUtils;
 import jakarta.annotation.Resource;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -54,6 +57,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
 
     @Autowired
     UsersMapper usersMapper;
+
+    @Resource
+    IUserPivotRolesService userPivotRolesService;
 
     /**
      * 从数据库中通过用户名或邮箱查找用户详细信息
@@ -135,11 +141,14 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
 
         if (!this.save(user)) {
             return "Registration failed, please contact administrator";
-
-        } else {
-            this.deleteEmailVerifyCode(email);
-            return null;
         }
+
+        // Add user role
+        List<Integer> roleIds = List.of(2); // Default role id 2 is User role
+        userPivotRolesService.updateUserRoles(user.getId(), roleIds);
+
+        this.deleteEmailVerifyCode(email);
+        return null;
     }
 
     /**
