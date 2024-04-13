@@ -19,4 +19,6 @@ public interface IDonationsService extends IService<Donations> {
     IPage<Donations> getDonations(Page<Donations> page, String filter);
 
     IPage<DonationDTO> getDonationsByUserId(Page<DonationDTO> page, Integer userId);
+
+    boolean addDonation(Donations donation);
 }

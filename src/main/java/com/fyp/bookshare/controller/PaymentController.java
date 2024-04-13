@@ -25,8 +25,9 @@ public class PaymentController {
     public RestBean<String> createPaymentIntent(@RequestBody CreatePayment createPayment) throws StripeException {
         PaymentIntentCreateParams params =
                 PaymentIntentCreateParams.builder()
-                        .setCurrency("myr")
+                        .setCurrency("usd")
                         .putMetadata("userId", createPayment.getUserId())
+                        .putMetadata("fundraisingProjectId", createPayment.getFundraisingProjectId())
                         .setAmount(createPayment.getAmount() * 100L)
                         // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
                         .setAutomaticPaymentMethods(

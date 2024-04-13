@@ -59,6 +59,7 @@ public class SecurityConfiguration {
                 .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(conf -> conf
                         .requestMatchers("/api/auth/**", "/error").permitAll()
+                        .requestMatchers("/api/stripe-webhook/**").permitAll()
                         .requestMatchers(SecurityPathConfig.ADMIN_PATHS).hasRole(Const.ROLE_ADMIN)
                         .anyRequest().hasAnyRole(Const.ROLE_DEFAULT)
                 )

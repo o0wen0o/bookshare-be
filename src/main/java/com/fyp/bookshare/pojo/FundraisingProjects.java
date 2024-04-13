@@ -51,7 +51,7 @@ public class FundraisingProjects implements Serializable {
     private BigDecimal amountRaised;
 
     @TableField("donation_count")
-    private String donationCount;
+    private Integer donationCount;
 
     @TableField("status")
     private String status;

@@ -9,8 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -20,8 +19,9 @@ import lombok.Setter;
  * @author o0wen0o
  * @since 2024-02-28
  */
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("donations")
 @ApiModel(value = "Donations对象", description = "")
 public class Donations implements Serializable {
