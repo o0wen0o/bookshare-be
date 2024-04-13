@@ -79,12 +79,12 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
             // Update the user with the avatar URL
             user.setAvatar(imageUrl);
-            return this.updateById(user);
+            this.updateById(user);
         }
 
         // Update the user roles
         if (userSaved && roleIds != null) {
-            boolean updated = userPivotRolesService.updateUserRoles(user.getId(), roleIds);
+            userPivotRolesService.updateUserRoles(user.getId(), roleIds);
         }
 
         return userSaved;
