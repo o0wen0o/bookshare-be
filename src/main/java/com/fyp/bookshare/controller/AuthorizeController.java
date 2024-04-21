@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.function.Supplier;
 
 /**
- * Used to verify that relevant Controllers include user registration, password reset
+ * Use for verification including user registration, password reset
  */
 @Validated
 @RestController
@@ -32,15 +32,15 @@ public class AuthorizeController {
     /**
      * Request email verification code
      *
-     * @param email   request email
-     * @param type    type
-     * @param request request
+     * @param type    either register or reset
+     * @param email   email
+     * @param request to get the IP address
      * @return Whether the request is successful
      */
     @GetMapping("/ask-code")
     @Operation(summary = "Request email verification code")
-    public RestBean<Void> askVerifyCode(@RequestParam @Email String email,
-                                        @RequestParam @Pattern(regexp = "(register|reset)") String type,
+    public RestBean<Void> askVerifyCode(@RequestParam @Pattern(regexp = "(register|reset)") String type,
+                                        @RequestParam @Email String email,
                                         HttpServletRequest request) {
         return this.messageHandle(() ->
                 accountService.registerEmailVerifyCode(type, email, request.getRemoteAddr()));

@@ -84,15 +84,16 @@ public class JwtUtils {
     }
 
     /**
-     * 根据UserDetails生成对应的Jwt令牌
+     * Generate Jwt token based on UserDetails
      *
-     * @param user 用户信息
-     * @return 令牌
+     * @param user user information
+     * @return token
      */
     public String createJwt(UserDetails user, String email, int userId, Date expire) {
         if (this.frequencyCheck(userId)) {
             Algorithm algorithm = Algorithm.HMAC256(key);
 
+            // store authorities in JWT for Spring Security
             List<String> authorities = user.getAuthorities()
                     .stream()
                     .map(GrantedAuthority::getAuthority) // ROLE_[User, Admin]

@@ -55,9 +55,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
     @Resource
     FlowUtils flow;
 
-    @Autowired
-    UsersMapper usersMapper;
-
     @Resource
     IUserPivotRolesService userPivotRolesService;
 
@@ -83,37 +80,50 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
     }
 
     /**
-     * 生成注册验证码存入Redis中，并将邮件发送请求提交到消息队列等待发送
+     * Generate the registration verification code and store it in Redis,
+     * and submit the email sending request to the message queue waiting to be sent.
      *
-     * @param type    类型
-     * @param email   邮件地址
-     * @param address 请求IP地址
-     * @return 操作结果，null表示正常，否则为错误原因
+     * @param type    either register or reset
+     * @param email   email address
+     * @param address request IP address
+     * @return The operation result, null means normal, otherwise it is the cause of the error
      */
     public String registerEmailVerifyCode(String type, String email, String address) {
+        // if the type is register and the email is already registered
+        if (type.equals("register") && this.existsAccountByEmail(email)) {
+            return "This email address has been registered";
+        }
+
         synchronized (address.intern()) {
             if (!this.verifyLimit(address))
                 return "Frequent requests, please try again later";
 
             Random random = new Random();
             int code = random.nextInt(899999) + 100000;
-            Map<String, Object> data = Map.of("type", type, "email", email, "code", code);
+            Map<String, Object> data = Map.of(
+                    "type", type,
+                    "email", email,
+                    "code", code);
 
             rabbitTemplate.convertAndSend(Const.MQ_MAIL, data);
 
             stringRedisTemplate
                     .opsForValue()
-                    .set(Const.VERIFY_EMAIL_DATA + email, String.valueOf(code), 3, TimeUnit.MINUTES);
+                    .set(Const.VERIFY_EMAIL_DATA + email,
+                            String.valueOf(code),
+                            3, TimeUnit.MINUTES);
 
             return null;
         }
     }
 
     /**
-     * 邮件验证码注册账号操作，需要检查验证码是否正确以及邮箱、用户名是否存在重名
+     * When registering an account with an email verification code,
+     * need to check whether the verification code is correct
+     * and whether the email address is duplicated
      *
-     * @param info 注册基本信息
-     * @return 操作结果，null表示正常，否则为错误原因
+     * @param info registration information
+     * @return The operation result, null means normal, otherwise it is the cause of the error
      */
     @Transactional(rollbackFor = Exception.class)
     public String registerEmailAccount(EmailRegisterVO info) {
@@ -152,10 +162,30 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
     }
 
     /**
-     * 邮件验证码重置密码操作，需要检查验证码是否正确
+     * Confirm to reset the password and verify whether the verification code is correct
      *
-     * @param info 重置基本信息
-     * @return 操作结果，null表示正常，否则为错误原因
+     * @param info verification information
+     * @return The operation result, null means normal, otherwise it is the cause of the error
+     */
+    public String resetConfirm(ConfirmResetVO info) {
+        String email = info.getEmail();
+        String code = this.getEmailVerifyCode(email);
+
+        if (code == null)
+            return "Please get the verification code first";
+
+        if (!code.equals(info.getCode()))
+            return "Incorrect verification code, please enter again";
+
+        return null;
+    }
+
+    /**
+     * Use email verification code to reset password
+     * need to check whether the verification code is correct.
+     *
+     * @param info reset password information
+     * @return The operation result, null means normal, otherwise it is the cause of the error
      */
     @Transactional(rollbackFor = Exception.class)
     public String resetEmailAccountPassword(EmailResetVO info) {
@@ -178,28 +208,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Users> implem
     }
 
     /**
-     * 重置密码确认操作，验证验证码是否正确
+     * Remove the email verification code stored in Redis
      *
-     * @param info 验证基本信息
-     * @return 操作结果，null表示正常，否则为错误原因
-     */
-    public String resetConfirm(ConfirmResetVO info) {
-        String email = info.getEmail();
-        String code = this.getEmailVerifyCode(email);
-
-        if (code == null)
-            return "Please get the verification code first";
-
-        if (!code.equals(info.getCode()))
-            return "Incorrect verification code, please enter again";
-
-        return null;
-    }
-
-    /**
-     * 移除Redis中存储的邮件验证码
-     *
-     * @param email 电邮
+     * @param email
      */
     private void deleteEmailVerifyCode(String email) {
         String key = Const.VERIFY_EMAIL_DATA + email;

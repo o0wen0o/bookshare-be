@@ -31,7 +31,8 @@ public class StripeWebhookController {
     private IDonationsService donationsService;
 
     @PostMapping("/stripe/events")
-    public String handleStripeWebhook(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
+    public String handleStripeWebhook(@RequestBody String payload,
+                                      @RequestHeader("Stripe-Signature") String sigHeader) {
 
         if (sigHeader == null) {
             return "";

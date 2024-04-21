@@ -25,7 +25,7 @@ public class PaymentController {
     public RestBean<String> createPaymentIntent(@RequestBody CreatePayment createPayment) throws StripeException {
         PaymentIntentCreateParams params =
                 PaymentIntentCreateParams.builder()
-                        .setCurrency("usd")
+                        .setCurrency("myr")
                         .putMetadata("userId", createPayment.getUserId())
                         .putMetadata("fundraisingProjectId", createPayment.getFundraisingProjectId())
                         .setAmount(createPayment.getAmount() * 100L)

@@ -121,9 +121,6 @@ public class BookDetailController {
     @PostMapping("/rateBook")
     @Operation(summary = "Rate a book")
     public RestBean<Void> rateBook(@RequestBody BookRatings bookRating) {
-        log.info("Rate book: {}", bookRating.getRating());
-        log.info("Rate book: {}", bookRating.getBookId());
-        log.info("Rate book: {}", bookRating.getUserId());
         return messageHandle(() -> bookRatingsService.rateBook(bookRating), "Failed to rate the book");
     }
 

@@ -29,7 +29,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 /**
- * SpringSecurity相关配置
+ * SpringSecurity related configuration
  */
 @Configuration
 public class SecurityConfiguration {
@@ -47,11 +47,11 @@ public class SecurityConfiguration {
     AccountService service;
 
     /**
-     * 针对于 SpringSecurity 6 的新版配置方法
+     * New configuration method for SpringSecurity 6
      *
-     * @param http 配置器
-     * @return 自动构建的内置过滤器链
-     * @throws Exception 可能的异常
+     * @param http configurator
+     * @return automatically constructed built-in filter chain
+     * @throws Exception possible exceptions
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -100,15 +100,15 @@ public class SecurityConfiguration {
     }
 
     /**
-     * 将多种类型的Handler整合到同一个方法中，包含：
-     * - 登录成功
-     * - 登录失败
-     * - 未登录拦截/无权限拦截
+     * Integrate multiple types of Handlers into the same method, including:
+     * - login successful
+     * - Login failed
+     * - Interception without login/interception without permission
      *
-     * @param request                   请求
-     * @param response                  响应
-     * @param exceptionOrAuthentication 异常或是验证实体
-     * @throws IOException 可能的异常
+     * @param request
+     * @param response
+     * @param exceptionOrAuthentication exception or verification entity
+     * @throws IOException possible exception
      */
     private void handleProcess(HttpServletRequest request,
                                HttpServletResponse response,
@@ -124,7 +124,7 @@ public class SecurityConfiguration {
         } else if (exceptionOrAuthentication instanceof Exception exception) {
             writer.write(RestBean
                     .unauthorized(exception.getMessage()).asJsonString());
-                    // .unauthorized("Incorrect email or password!").asJsonString());
+            // .unauthorized("Incorrect email or password!").asJsonString());
 
         } else if (exceptionOrAuthentication instanceof Authentication authentication) {
             User user = (User) authentication.getPrincipal();

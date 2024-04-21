@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * 用于处理邮件发送的消息队列监听器，监听RabbitMQ是否接收信息
- * Message queue listener used to handle email sending, monitoring whether RabbitMQ receives information
+ * Message queue listener used to handle email sending,
+ * monitoring whether RabbitMQ receives information
  */
 @Component
 @RabbitListener(queues = "mail")
@@ -35,7 +35,7 @@ public class MailQueueListener {
         Integer code = (Integer) data.get("code");
         SimpleMailMessage message = switch (data.get("type").toString()) {
             case "register" -> createMessage("Welcome to register our website",
-                    "Your email registration verification code is:" + code +
+                    "Your email registration verification code is: " + code +
                             ", which is valid for 3 minutes. To protect the security of your account, please do not disclose the verification code information to others.",
                     email);
             case "reset" -> createMessage("Reset password email",

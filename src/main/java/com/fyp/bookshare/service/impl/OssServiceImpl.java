@@ -13,8 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 /**
- * oss上传管理Service实现类
- * Created on 2018/5/17.
+ * oss upload management service implementation class
  */
 @Service
 @Slf4j

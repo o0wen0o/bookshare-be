@@ -31,14 +31,16 @@ public class FundraisingProjectDetailController {
     @GetMapping("/getFundraisingProjectDetail/{fundraisingProjectId}")
     @Operation(summary = "Get fundraising project detail")
     public RestBean<FundraisingProjectDetailDTO> getFundraisingProjectDetail(@PathVariable Integer fundraisingProjectId) {
-        FundraisingProjectDetailDTO fundraisingProjectDetailDTO = fundraisingProjectsService.getFundraisingProjectDetail(fundraisingProjectId);
+        FundraisingProjectDetailDTO fundraisingProjectDetailDTO =
+                fundraisingProjectsService.getFundraisingProjectDetail(fundraisingProjectId);
         return RestBean.success(fundraisingProjectDetailDTO);
     }
 
     @GetMapping("/getFundraisingProjectProgressesByProjectId/{fundraisingProjectId}")
     @Operation(summary = "Get fundraising project progresses by fundraising project id")
     public RestBean<List<FundraisingProjectProgress>> getFundraisingProjectProgressesByProjectId(@PathVariable Integer fundraisingProjectId) {
-        List<FundraisingProjectProgress> fundraisingProjectProgresses = fundraisingProjectProgressService.getFundraisingProjectProgressesByProjectId(fundraisingProjectId);
+        List<FundraisingProjectProgress> fundraisingProjectProgresses =
+                fundraisingProjectProgressService.getFundraisingProjectProgressesByProjectId(fundraisingProjectId);
         return RestBean.success(fundraisingProjectProgresses);
     }
 }
